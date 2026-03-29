@@ -85,3 +85,16 @@ This template comes with [Tailwind CSS](https://tailwindcss.com/) already config
 ---
 
 Built with ❤️ using React Router.
+
+## Hasznos linkek
+
+### Vercel
+https://vercel.com/hasza98s-projects/alsza-wedding
+
+### Sheet monkey
+https://dashboard.sheetmonkey.io/edit/qwMw18bVNwaX6BdvtFGEh2
+
+### Google sheets
+https://docs.google.com/spreadsheets/d/10ZmR9GQq36JharAnLWttWLD-lvhGobajB8zxHqocJU8/edit?gid=0#gid=0
+
+---
