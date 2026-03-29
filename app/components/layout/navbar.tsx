@@ -11,6 +11,7 @@ export function Navbar() {
             key={item.to}
             to={item.to}
             end={item.to === "/"}
+            preventScrollReset
             className={({ isActive }) =>
               [
                 "relative inline-block pb-1 text-[11px] font-medium uppercase tracking-[0.28em] transition-colors duration-200",
