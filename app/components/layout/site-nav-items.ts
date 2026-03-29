@@ -7,5 +7,6 @@ export const siteNavItems = [
   { label: "Wedding Party", to: "/wedding-party" },
   { label: "Photos", to: "/photos" },
   { label: "Share Your Photos", to: "/share-photos" },
+  { label: "Countdown", to: "/countdown" },
   { label: "RSVP", to: "/rsvp" },
 ];

@@ -1,15 +1,22 @@
 import {
+  redirect,
   isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
+  useLocation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import { SiteHeader } from "./components/layout/site-header";
 import "./app.css";
+
+function isCountdownEnabled() {
+  return process.env.COUNTDOWN === "true";
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,7 +49,27 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+export async function loader({ request }: Route.LoaderArgs) {
+  const showCountdownOnly = isCountdownEnabled();
+  const pathname = new URL(request.url).pathname;
+
+  if (showCountdownOnly && pathname !== "/countdown") {
+    throw redirect("/countdown");
+  }
+
+  return { showCountdownOnly };
+}
+
 export default function App() {
+  const { showCountdownOnly } = useLoaderData<typeof loader>();
+  const location = useLocation();
+  const isCountdownPage =
+    showCountdownOnly || location.pathname === "/countdown";
+
+  if (isCountdownPage) {
+    return <Outlet />;
+  }
+
   return (
     <div className="min-h-screen">
       <SiteHeader />
