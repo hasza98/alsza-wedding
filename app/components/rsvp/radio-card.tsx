@@ -1,9 +1,14 @@
+import type { ChangeEventHandler } from "react";
+
 type RadioCardProps = {
   id: string;
   name: string;
   value: string;
   label: string;
+  checked?: boolean;
   defaultChecked?: boolean;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+  required?: boolean;
 };
 
 export function RadioCard({
@@ -11,19 +16,25 @@ export function RadioCard({
   name,
   value,
   label,
+  checked,
   defaultChecked = false,
+  onChange,
+  required = false,
 }: RadioCardProps) {
   return (
     <label
       htmlFor={id}
-      className="flex cursor-pointer items-center gap-3 rounded-2xl border border-[#e2d6ca] bg-[#fcfaf7] px-4 py-4 text-[#2f2421] transition hover:border-[#b7937f] hover:bg-[#faf3ed]"
+      className="flex cursor-pointer items-center gap-3 rounded-2xl border border-[#e2d6ca] bg-[#fcfaf7] px-4 py-4 text-[#2f2421] transition hover:border-[#b7937f] hover:bg-[#faf3ed] has-[:checked]:border-[#9f7f6d] has-[:checked]:bg-[#f4ebe4] has-[:checked]:shadow-[0_10px_28px_rgba(80,56,38,0.10)]"
     >
       <input
         id={id}
         type="radio"
         name={name}
         value={value}
-        defaultChecked={defaultChecked}
+        checked={checked}
+        defaultChecked={checked === undefined ? defaultChecked : undefined}
+        onChange={onChange}
+        required={required}
         className="h-4 w-4 border-[#9f7f6d] text-[#2f2421] focus:ring-[#d9c1b1]"
       />
       <span

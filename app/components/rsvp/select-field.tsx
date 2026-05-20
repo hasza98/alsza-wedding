@@ -1,38 +1,29 @@
-import type { ChangeEventHandler } from "react";
+type SelectOption = {
+  label: string;
+  value: string;
+};
 
-type FormFieldProps = {
+type SelectFieldProps = {
   id: string;
   label: string;
   name: string;
+  options: SelectOption[];
   placeholder?: string;
-  type?: string;
   required?: boolean;
-  min?: string;
-  max?: string;
-  pattern?: string;
-  title?: string;
   showInvalid?: boolean;
   errorMessage?: string;
-  value?: string | number;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
-export function FormField({
+export function SelectField({
   id,
   label,
   name,
+  options,
   placeholder,
-  type = "text",
   required = false,
-  min,
-  max,
-  pattern,
-  title,
   showInvalid = false,
-  errorMessage = "Légyszi tölts ki.",
-  value,
-  onChange,
-}: FormFieldProps) {
+  errorMessage = "Please fill out this field.",
+}: SelectFieldProps) {
   return (
     <label className="block">
       <span
@@ -41,24 +32,28 @@ export function FormField({
       >
         {label}
       </span>
-      <input
+      <select
         id={id}
         name={name}
-        type={type}
-        placeholder={placeholder}
         required={required}
-        min={min}
-        max={max}
-        pattern={pattern}
-        title={title}
-        value={value}
-        onChange={onChange}
-        className={`peer w-full rounded-2xl border border-[#e2d6ca] bg-[#fcfaf7] px-4 py-3 text-base text-[#2f2421] outline-none transition placeholder:text-[#a29185] focus:border-[#9f7f6d] focus:ring-2 focus:ring-[#d9c1b1] ${
+        defaultValue=""
+        className={`peer w-full appearance-none rounded-2xl border border-[#e2d6ca] bg-[#fcfaf7] px-4 py-3 text-base text-[#2f2421] outline-none transition has-[option[value='']:checked]:text-[#a29185] focus:border-[#9f7f6d] focus:ring-2 focus:ring-[#d9c1b1] ${
           showInvalid
             ? "invalid:border-[#c85745] invalid:bg-[#fff7f5] focus:invalid:border-[#c85745] focus:invalid:ring-[#e7aaa0]"
             : ""
         }`}
-      />
+      >
+        {placeholder ? (
+          <option value="" disabled hidden>
+            {placeholder}
+          </option>
+        ) : null}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       {showInvalid && (
         <span className="mt-2 hidden text-sm font-medium text-[#c85745] peer-invalid:block">
           {errorMessage}
