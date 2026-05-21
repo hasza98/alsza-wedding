@@ -22,7 +22,7 @@ export async function action({ request }: Route.ActionArgs) {
     formData.set("phone", phone.replace(/\s+/g, ""));
   }
 
-  const response = await fetch('https://api.sheetmonkey.io/form/qwMw18bVNwaX6BdvtFGEh2', {
+  const response = await fetch(sheetMonkeyEndpoint, {
     method: "POST",
     headers: {
       Accept: "application/json",
