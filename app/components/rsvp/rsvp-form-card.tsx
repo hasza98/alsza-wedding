@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Form } from "react-router";
 
 import { FormField } from "./form-field";
 import { MealPreferenceField } from "./meal-preference-field";
 import { RadioCard } from "./radio-card";
-import { SelectField } from "./select-field";
 import { TextAreaField } from "./text-area-field";
 
 type RsvpFormCardProps = {
@@ -12,15 +12,16 @@ type RsvpFormCardProps = {
 };
 
 export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
+  const successMessageRef = useRef<HTMLDivElement>(null);
   const [guestCount, setGuestCount] = useState(1);
-  const [attendance, setAttendance] = useState("Igen");
+  const [attendance, setAttendance] = useState("");
   const [invalidFields, setInvalidFields] = useState<Set<string>>(new Set());
   const additionalGuestCount = Math.max(0, Math.min(guestCount, 10) - 1);
   const additionalGuests = Array.from(
     { length: additionalGuestCount },
     (_, index) => index + 2,
   );
-  const isAttending = attendance === "Igen";
+  const isNotAttending = attendance === "Nem";
   const showInvalid = (fieldName: string) => invalidFields.has(fieldName);
   const clearInvalid = (fieldName: string) => {
     setInvalidFields((currentFields) => {
@@ -40,11 +41,34 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
     clearInvalid(target.name || target.id);
   };
 
+  useEffect(() => {
+    if (!isSubmitted) {
+      return;
+    }
+
+    successMessageRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, [isSubmitted]);
+
   return (
     <div className="rounded-[2rem] border border-[#eadfd4] bg-white p-8 shadow-[0_24px_70px_rgba(80,56,38,0.08)]">
       {isSubmitted && (
-        <div className="mb-6 rounded-2xl border border-[#c7d9c8] bg-[#f3fbf1] px-4 py-3 text-sm text-[#38543a]">
-          Thank you. Your RSVP has been sent successfully.
+        <div
+          ref={successMessageRef}
+          className="rounded-2xl border border-[#c7d9c8] bg-[#f3fbf1] px-5 py-5 text-[#38543a]"
+        >
+          <h2
+            className="text-2xl text-[#2f4a32]"
+            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+          >
+            Koszonjuk, megkaptuk a visszajelzesed!
+          </h2>
+          <p className="mt-2 text-sm leading-6">
+            Elmentettuk az RSVP-d. Mi mar nagyon varjuk, hogy egyutt
+            unnepeljunk.
+          </p>
         </div>
       )}
 
@@ -54,7 +78,8 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
         </div>
       )}
 
-      <form
+      {!isSubmitted && (
+      <Form
         method="POST"
         className="space-y-6"
         onInvalidCapture={(event) => {
@@ -75,8 +100,6 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
         onInput={(event) => clearInvalidFromTarget(event.target)}
         onChange={(event) => clearInvalidFromTarget(event.target)}
       >
-        <input type="hidden" name="_subject" value="New wedding RSVP" />
-
         <FormField
           id="guestName"
           label="Név"
@@ -103,7 +126,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           name="phone"
           placeholder="+36 30 123 4567"
           type="tel"
-          pattern="^\\s*\\+36\\s*(?:20|30|31|50|70)\\s*\\d{3}\\s*\\d{4}\\s*$"
+          pattern="^(\+?36)?[ -]?(\d{1,2}|(\(\d{1,2}\)))/?([ -]?\d){6,7}$"
           showInvalid={showInvalid("phone")}
           errorMessage="Bocsi, csak ezt a formát szeretem: +36 30 123 4567."
           required
@@ -124,6 +147,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
               label="Naná"
               checked={attendance === "Igen"}
               onChange={(event) => setAttendance(event.target.value)}
+              showInvalid={showInvalid("attendance")}
               required
             />
             <RadioCard
@@ -132,12 +156,22 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
               value="Nem"
               checked={attendance === "Nem"}
               onChange={(event) => setAttendance(event.target.value)}
+              showInvalid={showInvalid("attendance")}
               label="Szeretnék, de nem tudok."
             />
           </div>
+          {showInvalid("attendance") && (
+            <p className="mt-2 text-sm font-medium text-[#c85745]">
+              Kérlek valassz, hogy ott leszel-e.
+            </p>
+          )}
         </fieldset>
 
-        {isAttending ? (
+        {isNotAttending ? (
+          <div className="rounded-2xl border border-[#d8b197] bg-[#fff4eb] px-4 py-4 text-sm leading-6 text-[#7b4c33]">
+            Nagyon sajnáljuk, hogy nem tudsz velünk ünnepelni. Köszönjük hogy szóltál, mindenképp fussunk össze koccintani egyet!
+          </div>
+        ) : (
           <>
         <div className="grid gap-6 sm:grid-cols-2">
           <FormField
@@ -231,37 +265,45 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           </section>
         )}
 
- <fieldset>
-          <legend
-            className="text-sm font-medium uppercase tracking-[0.2em] text-[#5f524c]"
-            style={{ fontFamily: '"Inter", sans-serif' }}
-          >
-            Elszállásoljunk?
-          </legend>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <RadioCard
-              id="accomodation-yes"
-              name="accomodation"
-              value="Igen"
-              label="Igen, légyszi"
-              required
-            />
-            <RadioCard
-              id="accomodation-no"
-              name="accomodation"
-              value="Nem"
-              label="Nem kell köszi."
-            />
-          </div>
-        </fieldset>
+        <div>
+          <fieldset className="mb-2">
+            <legend
+              className="text-sm font-medium uppercase tracking-[0.2em] text-[#5f524c]"
+              style={{ fontFamily: '"Inter", sans-serif' }}
+            >
+              Elszállásoljunk?
+            </legend>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <RadioCard
+                id="accomodation-yes"
+                name="accomodation"
+                value="Igen"
+                showInvalid={showInvalid("accomodation")}
+                label="Igen, légyszi"
+                required
+              />
+              <RadioCard
+                id="accomodation-no"
+                name="accomodation"
+                value="Nem"
+                showInvalid={showInvalid("accomodation")}
+                label="Nem kell köszi."
+              />
+            </div>
+          </fieldset>
 
+          <p className="text-xs leading-6 text-[#7a706a]">
+            A szállás részleteit{" "}
+            <a
+              href="/travel"
+              className="font-medium text-[#5f524c] underline decoration-[#b7937f] underline-offset-4 transition hover:text-[#2f2421]"
+            >
+              itt találod
+            </a>
+            .
+          </p>
+        </div>
 
-        <TextAreaField
-          id="songRequest"
-          label="Zene kérés"
-          name="songRequest"
-          placeholder="Ide írd be, mik azok a zenék amikre biztosan ropnád."
-        />
 
         <TextAreaField
           id="message"
@@ -271,11 +313,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
         />
 
           </>
-        ) : (
-          <div className="rounded-2xl border border-[#d8b197] bg-[#fff4eb] px-4 py-4 text-sm leading-6 text-[#7b4c33]">
-            Nagyon sajnáljuk, hogy nem tudsz velünk ünnepelni. Köszönjük hogy szóltál, mindenképp fussunk össze koccintani egyet!
-          </div>
-        )}
+        ) }
 
         <button
           type="submit"
@@ -287,7 +325,8 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           ></i>
           Küldés
         </button>
-      </form>
+      </Form>
+      )}
     </div>
   );
 }

@@ -1,7 +1,8 @@
-import { redirect, useActionData, useSearchParams } from "react-router";
+import { useActionData } from "react-router";
 
 import { RsvpFormCard } from "../components/rsvp/rsvp-form-card";
 import { RsvpIntroCard } from "../components/rsvp/rsvp-intro-card";
+import { RsvpPhotoCard } from "../components/rsvp/rsvp-photo-card";
 import type { Route } from "./+types/rsvp";
 
 export async function action({ request }: Route.ActionArgs) {
@@ -15,7 +16,13 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const formData = await request.formData();
-  const response = await fetch(sheetMonkeyEndpoint, {
+  const phone = formData.get("phone");
+
+  if (typeof phone === "string") {
+    formData.set("phone", phone.replace(/\s+/g, ""));
+  }
+
+  const response = await fetch('https://api.sheetmonkey.io/form/qwMw18bVNwaX6BdvtFGEh2', {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -30,18 +37,22 @@ export async function action({ request }: Route.ActionArgs) {
     };
   }
 
-  return redirect("/rsvp?submitted=1");
+  return { success: true };
 }
 
 export default function RsvpPage() {
   const actionData = useActionData<typeof action>();
-  const [searchParams] = useSearchParams();
-  const isSubmitted = searchParams.get("submitted") === "1";
+  const isSubmitted = actionData?.success === true;
 
   return (
     <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-        <RsvpIntroCard />
+        <div className="flex flex-col gap-8">
+          <RsvpIntroCard />
+          <div className="hidden flex-1 lg:block">
+            <RsvpPhotoCard src="/couple_1.jpg" />
+          </div>
+        </div>
         <RsvpFormCard isSubmitted={isSubmitted} error={actionData?.error} />
       </div>
     </section>
