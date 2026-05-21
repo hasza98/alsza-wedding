@@ -5,6 +5,7 @@ export default [
   route("our-story", "routes/our-story.tsx"),
   route("q-and-a", "routes/q-and-a.tsx"),
   route("travel", "routes/travel.tsx"),
+  route("accommodation", "routes/accommodation.tsx"),
   route("registry", "routes/registry.tsx"),
   route("wedding-party", "routes/wedding-party.tsx"),
   route("photos", "routes/photos.tsx"),
