@@ -62,7 +62,7 @@ export function WeddingCountdown() {
   }, []);
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#faf8f4]">
+    <div className="flex min-h-screen w-full flex-col bg-wedding-page">
       <FloralBand />
 
       <div className="flex flex-1 items-center justify-center px-6 py-10 sm:px-8 lg:px-12">
@@ -71,14 +71,14 @@ export function WeddingCountdown() {
             {timeLeft.map((part) => (
               <div key={part.label} className="flex flex-col items-center">
                 <span
-                  className="text-5xl leading-none text-[#2f2421] sm:text-6xl"
-                  style={{ fontFamily: '"Cormorant Garamond", serif' }}
+                  className="font-display text-5xl leading-none text-wedding-ink sm:text-6xl"
+                  
                 >
                   {part.value}
                 </span>
                 <span
-                  className="mt-2 text-xs uppercase tracking-[0.35em] text-[#7c6f68]"
-                  style={{ fontFamily: '"Inter", sans-serif' }}
+                  className="mt-2 text-xs uppercase tracking-[0.35em] text-wedding-mutedWarm"
+                  
                 >
                   {part.label}
                 </span>

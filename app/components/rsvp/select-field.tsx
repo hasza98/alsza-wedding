@@ -27,8 +27,8 @@ export function SelectField({
   return (
     <label className="block">
       <span
-        className="mb-2 block text-sm font-medium uppercase tracking-[0.2em] text-[#5f524c]"
-        style={{ fontFamily: '"Inter", sans-serif' }}
+        className="mb-2 block text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted"
+        
       >
         {label}
       </span>
@@ -37,9 +37,9 @@ export function SelectField({
         name={name}
         required={required}
         defaultValue=""
-        className={`peer w-full appearance-none rounded-2xl border border-[#e2d6ca] bg-[#fcfaf7] px-4 py-3 text-base text-[#2f2421] outline-none transition has-[option[value='']:checked]:text-[#a29185] focus:border-[#9f7f6d] focus:ring-2 focus:ring-[#d9c1b1] ${
+        className={`peer w-full appearance-none rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3 text-base text-wedding-ink outline-none transition has-[option[value='']:checked]:text-wedding-placeholder focus:border-wedding-accent focus:ring-2 focus:ring-wedding-accentSoft ${
           showInvalid
-            ? "invalid:border-[#c85745] invalid:bg-[#fff7f5] focus:invalid:border-[#c85745] focus:invalid:ring-[#e7aaa0]"
+            ? "invalid:border-wedding-errorBorder invalid:bg-wedding-errorBg focus:invalid:border-wedding-errorBorder focus:invalid:ring-wedding-errorRing"
             : ""
         }`}
       >
@@ -55,7 +55,7 @@ export function SelectField({
         ))}
       </select>
       {showInvalid && (
-        <span className="mt-2 hidden text-sm font-medium text-[#c85745] peer-invalid:block">
+        <span className="mt-2 hidden text-sm font-medium text-wedding-errorText peer-invalid:block">
           {errorMessage}
         </span>
       )}

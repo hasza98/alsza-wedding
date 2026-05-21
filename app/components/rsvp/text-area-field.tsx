@@ -14,8 +14,8 @@ export function TextAreaField({
   return (
     <label className="block">
       <span
-        className="mb-2 block text-sm font-medium uppercase tracking-[0.2em] text-[#5f524c]"
-        style={{ fontFamily: '"Inter", sans-serif' }}
+        className="mb-2 block text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted"
+        
       >
         {label}
       </span>
@@ -24,7 +24,7 @@ export function TextAreaField({
         name={name}
         rows={4}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-[#e2d6ca] bg-[#fcfaf7] px-4 py-3 text-base text-[#2f2421] outline-none transition placeholder:text-[#a29185] focus:border-[#9f7f6d] focus:ring-2 focus:ring-[#d9c1b1]"
+        className="w-full rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3 text-base text-wedding-ink outline-none transition placeholder:text-wedding-placeholder focus:border-wedding-accent focus:ring-2 focus:ring-wedding-accentSoft"
       />
     </label>
   );

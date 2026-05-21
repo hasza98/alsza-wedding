@@ -53,15 +53,15 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
   }, [isSubmitted]);
 
   return (
-    <div className="rounded-[2rem] border border-[#eadfd4] bg-white p-8 shadow-[0_24px_70px_rgba(80,56,38,0.08)]">
+    <div className="rounded-[2rem] border border-wedding-borderSoft bg-wedding-surface p-8 shadow-wedding-card">
       {isSubmitted && (
         <div
           ref={successMessageRef}
-          className="rounded-2xl border border-[#c7d9c8] bg-[#f3fbf1] px-5 py-5 text-[#38543a]"
+          className="rounded-2xl border border-wedding-successBorder bg-wedding-successBg px-5 py-5 text-wedding-successText"
         >
           <h2
-            className="text-2xl text-[#2f4a32]"
-            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+            className="font-display text-2xl text-wedding-successHeading"
+            
           >
             Koszonjuk, megkaptuk a visszajelzesed!
           </h2>
@@ -73,7 +73,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
       )}
 
       {error && (
-        <div className="mb-6 rounded-2xl border border-[#d8b197] bg-[#fff4eb] px-4 py-3 text-sm text-[#7b4c33]">
+        <div className="mb-6 rounded-2xl border border-wedding-errorPanelBorder bg-wedding-errorPanel px-4 py-3 text-sm text-wedding-errorPanelText">
           {error}
         </div>
       )}
@@ -134,8 +134,8 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
 
         <fieldset>
           <legend
-            className="text-sm font-medium uppercase tracking-[0.2em] text-[#5f524c]"
-            style={{ fontFamily: '"Inter", sans-serif' }}
+            className="text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted"
+            
           >
             Ott leszel az esküvőnkön?
           </legend>
@@ -161,14 +161,14 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
             />
           </div>
           {showInvalid("attendance") && (
-            <p className="mt-2 text-sm font-medium text-[#c85745]">
+            <p className="mt-2 text-sm font-medium text-wedding-errorText">
               Kérlek valassz, hogy ott leszel-e.
             </p>
           )}
         </fieldset>
 
         {isNotAttending ? (
-          <div className="rounded-2xl border border-[#d8b197] bg-[#fff4eb] px-4 py-4 text-sm leading-6 text-[#7b4c33]">
+          <div className="rounded-2xl border border-wedding-errorPanelBorder bg-wedding-errorPanel px-4 py-4 text-sm leading-6 text-wedding-errorPanelText">
             Nagyon sajnáljuk, hogy nem tudsz velünk ünnepelni. Köszönjük hogy szóltál, mindenképp fussunk össze koccintani egyet!
           </div>
         ) : (
@@ -208,15 +208,15 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
         />
 
         {additionalGuests.length > 0 && (
-          <section className="space-y-5 rounded-2xl border border-[#eadfd4] bg-[#fcfaf7] p-5">
+          <section className="space-y-5 rounded-2xl border border-wedding-borderSoft bg-wedding-surfaceWarm p-5">
             <div>
               <h2
-                className="text-sm font-medium uppercase tracking-[0.2em] text-[#5f524c]"
-                style={{ fontFamily: '"Inter", sans-serif' }}
+                className="text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted"
+                
               >
                 Aki veled jön
               </h2>
-              <p className="mt-2 text-sm leading-6 text-[#6c5c52]">
+              <p className="mt-2 text-sm leading-6 text-wedding-bodySoft">
                 Kérlek add meg a pótkerekeid adataid is, hogy rájuk is fel tudjunk készülni. :)
               </p>
             </div>
@@ -228,8 +228,8 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
                 return (
                   <div key={guestNumber} className="space-y-4">
                     <h3
-                      className="text-sm font-medium uppercase tracking-[0.18em] text-[#7b685e]"
-                      style={{ fontFamily: '"Inter", sans-serif' }}
+                      className="text-sm font-medium uppercase tracking-[0.18em] text-wedding-labelSoft"
+                      
                     >
                       {guestNumber -1 }. Pótkerék 
                     </h3>
@@ -268,8 +268,8 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
         <div>
           <fieldset className="mb-2">
             <legend
-              className="text-sm font-medium uppercase tracking-[0.2em] text-[#5f524c]"
-              style={{ fontFamily: '"Inter", sans-serif' }}
+              className="text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted"
+              
             >
               Elszállásoljunk?
             </legend>
@@ -292,11 +292,11 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
             </div>
           </fieldset>
 
-          <p className="text-xs leading-6 text-[#7a706a]">
+          <p className="text-xs leading-6 text-wedding-mutedSoft">
             A szállás részleteit{" "}
             <a
               href="/travel"
-              className="font-medium text-[#5f524c] underline decoration-[#b7937f] underline-offset-4 transition hover:text-[#2f2421]"
+              className="font-medium text-wedding-muted underline decoration-wedding-accentWarm underline-offset-4 transition hover:text-wedding-ink"
             >
               itt találod
             </a>
@@ -317,7 +317,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
 
         <button
           type="submit"
-          className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#2f2421] px-6 py-4 text-sm font-medium uppercase leading-none tracking-[0.25em] text-white transition hover:bg-[#473632]"
+          className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-wedding-ink px-6 py-4 text-sm font-medium uppercase leading-none tracking-[0.25em] text-wedding-onInk transition hover:bg-wedding-buttonHover"
         >
           <i
             className="fa-solid fa-envelope inline-flex h-[1em] w-[1em] items-center justify-center text-[1em] leading-none"

@@ -24,13 +24,13 @@ export function RadioCard({
   showInvalid = false,
 }: RadioCardProps) {
   const stateClasses = showInvalid
-    ? "border-[#c85745] bg-[#fff7f5] hover:border-[#c85745] hover:bg-[#fff7f5]"
-    : "border-[#e2d6ca] bg-[#fcfaf7] hover:border-[#b7937f] hover:bg-[#faf3ed] has-[:checked]:border-[#9f7f6d] has-[:checked]:bg-[#f4ebe4] has-[:checked]:shadow-[0_10px_28px_rgba(80,56,38,0.10)]";
+    ? "border-wedding-errorBorder bg-wedding-errorBg hover:border-wedding-errorBorder hover:bg-wedding-errorBg"
+    : "border-wedding-border bg-wedding-surfaceWarm hover:border-wedding-accentWarm hover:bg-wedding-panelHover has-[:checked]:border-wedding-accent has-[:checked]:bg-wedding-panelSelected has-[:checked]:shadow-wedding-radio";
 
   return (
     <label
       htmlFor={id}
-      className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-4 text-[#2f2421] transition ${stateClasses}`}
+      className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-4 text-wedding-ink transition ${stateClasses}`}
     >
       <input
         id={id}
@@ -41,11 +41,11 @@ export function RadioCard({
         defaultChecked={checked === undefined ? defaultChecked : undefined}
         onChange={onChange}
         required={required}
-        className="h-4 w-4 border-[#9f7f6d] text-[#2f2421] focus:ring-[#d9c1b1]"
+        className="h-4 w-4 border-wedding-accent text-wedding-ink focus:ring-wedding-accentSoft"
       />
       <span
         className="text-sm font-medium uppercase tracking-[0.18em]"
-        style={{ fontFamily: '"Inter", sans-serif' }}
+        
       >
         {label}
       </span>

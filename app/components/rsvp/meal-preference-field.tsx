@@ -87,8 +87,8 @@ export function MealPreferenceField({
     <div className="relative">
       <label htmlFor={id} className="block">
         <span
-          className="mb-2 block text-sm font-medium uppercase tracking-[0.2em] text-[#5f524c]"
-          style={{ fontFamily: '"Inter", sans-serif' }}
+          className="mb-2 block text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted"
+          
         >
           {label}
         </span>
@@ -97,9 +97,9 @@ export function MealPreferenceField({
       <input type="hidden" name={name} value={chips.join(", ")} />
 
       <div
-        className={`rounded-2xl border border-[#e2d6ca] bg-[#fcfaf7] px-4 py-3 transition focus-within:border-[#9f7f6d] focus-within:ring-2 focus-within:ring-[#d9c1b1] ${
+        className={`rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3 transition focus-within:border-wedding-accent focus-within:ring-2 focus-within:ring-wedding-accentSoft ${
           showInvalid
-            ? "has-[:invalid]:border-[#c85745] has-[:invalid]:bg-[#fff7f5] focus-within:has-[:invalid]:border-[#c85745] focus-within:has-[:invalid]:ring-[#e7aaa0]"
+            ? "has-[:invalid]:border-wedding-errorBorder has-[:invalid]:bg-wedding-errorBg focus-within:has-[:invalid]:border-wedding-errorBorder focus-within:has-[:invalid]:ring-wedding-errorRing"
             : ""
         }`}
       >
@@ -107,14 +107,14 @@ export function MealPreferenceField({
           {chips.map((chip) => (
             <span
               key={chip}
-              className="inline-flex items-center gap-2 rounded-full border border-[#d7c6b8] bg-white px-3 py-1 text-base text-[#2f2421]"
+              className="inline-flex items-center gap-2 rounded-full border border-wedding-chipBorder bg-wedding-surface px-3 py-1 text-base text-wedding-ink"
             >
               {chip}
               <button
                 type="button"
                 aria-label={`Remove ${chip}`}
                 onClick={() => removeChip(chip)}
-                className="text-[#7b685e] transition hover:text-[#2f2421]"
+                className="text-wedding-labelSoft transition hover:text-wedding-ink"
               >
                 <svg
                   aria-hidden="true"
@@ -144,20 +144,20 @@ export function MealPreferenceField({
               addChip(inputValue);
               setIsDropdownOpen(false);
             }}
-            className="min-w-[12rem] flex-1 bg-transparent text-base text-[#2f2421] outline-none placeholder:text-[#a29185]"
+            className="min-w-[12rem] flex-1 bg-transparent text-base text-wedding-ink outline-none placeholder:text-wedding-placeholder"
           />
         </div>
       </div>
 
       {isDropdownOpen && availableOptions.length > 0 && (
-        <div className="absolute z-10 mt-2 w-full overflow-hidden rounded-2xl border border-[#e2d6ca] bg-white shadow-[0_18px_40px_rgba(80,56,38,0.12)]">
+        <div className="absolute z-10 mt-2 w-full overflow-hidden rounded-2xl border border-wedding-border bg-wedding-surface shadow-wedding-dropdown">
           {availableOptions.map((option) => (
             <button
               key={option}
               type="button"
               onMouseDown={(event) => event.preventDefault()}
               onClick={() => addChip(option)}
-              className="block w-full px-4 py-3 text-left text-sm text-[#2f2421] transition hover:bg-[#faf3ed]"
+              className="block w-full px-4 py-3 text-left text-sm text-wedding-ink transition hover:bg-wedding-panelHover"
             >
               {option}
             </button>
@@ -166,7 +166,7 @@ export function MealPreferenceField({
       )}
 
       {showInvalid && required && chips.length === 0 && (
-        <p className="mt-2 text-sm font-medium text-[#c85745]">
+        <p className="mt-2 text-sm font-medium text-wedding-errorText">
           {errorMessage}
         </p>
       )}

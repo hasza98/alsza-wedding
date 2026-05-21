@@ -49,7 +49,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-[#faf8f4] text-[#3b2f2b] antialiased">
+      <body className="bg-wedding-page font-sans text-wedding-inkSoft antialiased">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -121,9 +121,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="text-3xl font-semibold">{message}</h1>
-      <p className="mt-4 text-[#6f625b]">{details}</p>
+      <p className="mt-4 text-wedding-bodyMuted">{details}</p>
       {stack && (
-        <pre className="mt-6 overflow-x-auto rounded border border-[#e8e0d8] bg-white p-4 text-sm">
+        <pre className="mt-6 overflow-x-auto rounded border border-wedding-borderPage bg-wedding-surface p-4 text-sm">
           <code>{stack}</code>
         </pre>
       )}
