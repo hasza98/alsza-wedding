@@ -1,27 +1,15 @@
 import {
-  redirect,
   isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
-  useLocation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import { AutoplayAudio } from "./components/audio/autoplay-audio";
 import { SiteHeader } from "./components/layout/site-header";
 import "./app.css";
-
-function isCountdownEnabled() {
-  return process.env.COUNTDOWN === "true";
-}
-
-function isAlszahuEnabled() {
-  return process.env.ALSZAHU === "true";
-}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -58,39 +46,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export async function loader({ request }: Route.LoaderArgs) {
-  const showCountdownOnly = isCountdownEnabled();
-  const enableAlszahu = isAlszahuEnabled();
-  const pathname = new URL(request.url).pathname;
-
-  if (showCountdownOnly && pathname !== "/countdown") {
-    throw redirect("/countdown");
-  }
-
-  if (!showCountdownOnly && pathname === "/countdown") {
-    throw redirect("/");
-  }
-
-  return { showCountdownOnly, enableAlszahu };
-}
-
 export default function App() {
-  const { showCountdownOnly, enableAlszahu } = useLoaderData<typeof loader>();
-  const location = useLocation();
-  const isCountdownPage = showCountdownOnly && location.pathname === "/countdown";
-
-  if (isCountdownPage) {
-    return (
-      <>
-        {enableAlszahu ? <AutoplayAudio /> : null}
-        <Outlet />
-      </>
-    );
-  }
-
   return (
     <>
-      {enableAlszahu ? <AutoplayAudio /> : null}
       <div className="min-h-screen">
         <SiteHeader />
 

@@ -7,6 +7,10 @@ type CountdownPart = {
   value: number;
 };
 
+type CountdownTimerProps = {
+  compact?: boolean;
+};
+
 function getTimeLeft(): CountdownPart[] {
   const now = Date.now();
   const diff = Math.max(0, weddingDate.getTime() - now);
@@ -50,7 +54,7 @@ function FloralBand({ flipped = false }: { flipped?: boolean }) {
   );
 }
 
-export function WeddingCountdown() {
+export function CountdownTimer({ compact = false }: CountdownTimerProps) {
   const [timeLeft, setTimeLeft] = useState<CountdownPart[]>(() => getTimeLeft());
 
   useEffect(() => {
@@ -62,29 +66,37 @@ export function WeddingCountdown() {
   }, []);
 
   return (
+    <div
+      aria-label="Az esküvőig hátralévő idő"
+      className="flex flex-wrap items-start justify-center gap-x-[clamp(1.25rem,5vw,5rem)] gap-y-6"
+    >
+      {timeLeft.map((part) => (
+        <div key={part.label} className="flex min-w-[4.5rem] flex-col items-center">
+          <span
+            className={[
+              "font-display leading-none text-wedding-ink",
+              compact ? "text-4xl sm:text-5xl" : "text-5xl sm:text-6xl",
+            ].join(" ")}
+          >
+            {part.value}
+          </span>
+          <span className="mt-2 text-xs uppercase tracking-[0.3em] text-wedding-mutedWarm">
+            {part.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function WeddingCountdown() {
+  return (
     <div className="flex min-h-screen w-full flex-col bg-wedding-page">
       <FloralBand />
 
       <div className="flex flex-1 items-center justify-center px-6 py-10 sm:px-8 lg:px-12">
         <div className="flex w-full max-w-6xl flex-col items-center text-center">
-          <div className="flex flex-col items-center gap-5 sm:flex-row sm:flex-nowrap sm:justify-center sm:gap-x-[clamp(1.5rem,5vw,5rem)]">
-            {timeLeft.map((part) => (
-              <div key={part.label} className="flex flex-col items-center">
-                <span
-                  className="font-display text-5xl leading-none text-wedding-ink sm:text-6xl"
-                  
-                >
-                  {part.value}
-                </span>
-                <span
-                  className="mt-2 text-xs uppercase tracking-[0.35em] text-wedding-mutedWarm"
-                  
-                >
-                  {part.label}
-                </span>
-              </div>
-            ))}
-          </div>
+          <CountdownTimer />
         </div>
       </div>
 
