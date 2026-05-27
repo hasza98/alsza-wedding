@@ -52,8 +52,20 @@ export default function App() {
       <div className="min-h-screen">
         <SiteHeader />
 
-        <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <Outlet />
+        <main className="relative isolate overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 opacity-20"
+            style={{
+              backgroundImage: "url('/flowerbg.png')",
+              backgroundPosition: "top center",
+              backgroundRepeat: "repeat",
+              backgroundSize: "640px auto",
+            }}
+          />
+          <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <Outlet />
+          </div>
         </main>
       </div>
     </>
