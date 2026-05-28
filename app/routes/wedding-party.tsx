@@ -61,28 +61,34 @@ export default function WeddingParty() {
             const isLeft = index % 2 === 0;
 
             return (
-            <div
-              key={`${event.time}-${event.title}`}
-              className={`relative grid gap-4 pl-14 md:grid-cols-[1fr_4rem_1fr] md:pl-0 ${
-                isLeft ? "md:text-right" : ""
-              }`}
-            >
-              <div className={isLeft ? "md:col-start-1 md:pr-4" : "md:col-start-3 md:pl-4"}>
-                <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-wedding-labelWarm">
-                  {event.time}
-                </p>
-                <h2 className="mt-1 font-display text-2xl text-wedding-ink">
-                  {event.title}
-                </h2>
-                <p className="mt-2 font-sans text-sm leading-7 text-wedding-bodySoft">
-                  {event.description}
-                </p>
-              </div>
+              <div
+                key={`${event.time}-${event.title}`}
+                className={`relative grid gap-4 pl-14 md:grid-cols-[1fr_4rem_1fr] md:pl-0 ${
+                  isLeft ? "md:text-right" : ""
+                }`}
+              >
+                <div
+                  className={
+                    isLeft ? "md:col-start-1 md:pr-4" : "md:col-start-3 md:pl-4"
+                  }
+                >
+                  <div className="rounded-[2rem] border border-wedding-borderSoft bg-wedding-surface p-6 shadow-wedding-card">
+                    <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-wedding-labelWarm">
+                      {event.time}
+                    </p>
+                    <h2 className="mt-1 font-display text-2xl text-wedding-ink">
+                      {event.title}
+                    </h2>
+                    <p className="mt-2 font-sans text-sm leading-7 text-wedding-bodySoft">
+                      {event.description}
+                    </p>
+                  </div>
+                </div>
 
-              <div className="absolute left-5 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-wedding-border bg-wedding-panel text-wedding-muted shadow-wedding-radio md:left-1/2 md:h-12 md:w-12">
-                <i className={`fa-solid ${event.icon}`} aria-hidden="true"></i>
+                <div className="absolute left-5 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-wedding-border bg-wedding-panel text-wedding-muted shadow-wedding-radio md:left-1/2 md:h-12 md:w-12">
+                  <i className={`fa-solid ${event.icon}`} aria-hidden="true"></i>
+                </div>
               </div>
-            </div>
             );
           })}
         </div>
