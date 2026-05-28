@@ -85,7 +85,7 @@ export default function WeddingParty() {
                   </div>
                 </div>
 
-                <div className="absolute left-5 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-wedding-border bg-wedding-panel text-wedding-muted shadow-wedding-radio md:left-1/2 md:h-12 md:w-12">
+                <div className="absolute left-5 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-wedding-border bg-wedding-panel text-xl text-wedding-muted shadow-wedding-radio md:left-1/2 md:h-16 md:w-16 md:text-2xl">
                   <i className={`fa-solid ${event.icon}`} aria-hidden="true"></i>
                 </div>
               </div>
