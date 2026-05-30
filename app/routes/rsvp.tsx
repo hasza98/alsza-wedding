@@ -5,6 +5,49 @@ import { RsvpIntroCard } from "../components/rsvp/rsvp-intro-card";
 import { RsvpPhotoCard } from "../components/rsvp/rsvp-photo-card";
 import type { Route } from "./+types/rsvp";
 
+type AdditionalGuest = {
+  name: string;
+  mealPreference: string;
+  nickname: string;
+};
+
+function getStringValue(formData: FormData, key: string) {
+  const value = formData.get(key);
+
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function collectAdditionalGuests(formData: FormData): AdditionalGuest[] {
+  const guestCount = Number(getStringValue(formData, "guestCount"));
+  const additionalGuestCount = Number.isFinite(guestCount)
+    ? Math.max(0, Math.min(guestCount, 10) - 1)
+    : 0;
+
+  return Array.from({ length: additionalGuestCount }, (_, index) => {
+    const fieldPrefix = `additionalGuest${index + 1}`;
+
+    return {
+      name: getStringValue(formData, `${fieldPrefix}Name`),
+      mealPreference: getStringValue(formData, `${fieldPrefix}MealPreference`),
+      nickname: getStringValue(formData, `${fieldPrefix}Nickname`),
+    };
+  }).filter((guest) =>
+    Object.values(guest).some((value) => value.length > 0),
+  );
+}
+
+function replaceAdditionalGuestFields(formData: FormData) {
+  const additionalGuests = collectAdditionalGuests(formData);
+
+  for (const key of Array.from(formData.keys())) {
+    if (/^additionalGuest\d+(Name|MealPreference|Nickname)$/.test(key)) {
+      formData.delete(key);
+    }
+  }
+
+  formData.set("additionalGuests", JSON.stringify(additionalGuests));
+}
+
 export async function action({ request }: Route.ActionArgs) {
   const sheetMonkeyEndpoint = process.env.SHEETMONKEY_FORM_URL;
 
@@ -17,6 +60,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   const formData = await request.formData();
   const phone = formData.get("phone");
+  replaceAdditionalGuestFields(formData);
 
   if (typeof phone === "string") {
     formData.set("phone", phone.replace(/\s+/g, ""));
