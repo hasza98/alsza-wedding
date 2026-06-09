@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 
-const venueName = "Wein&Speiz Fogado";
-const venueAddress = "Gyorkony, Petofi Sandor u. 386, 7045";
-const churchName = "Church";
-const churchAddress = "Gyorkony church";
+const venueName = "Wein&Speiz Fogadó";
+const venueAddress = "Györköny, Petőfi Sandor u. 386";
+const churchName = "Nagydorogi Szent István király templom";
+const churchAddress = "Nagydorog, Kossuth Lajos utca";
 const publicTransportPointName = "Nagydorog vasútállomás";
 const publicTransportPointAddress = "Nagydorog, vasútállomás";
 
@@ -113,12 +113,12 @@ export default function Travel() {
     {
       ...getDestination("car", "venue"),
       icon: "fa-champagne-glasses",
-      label: "Venue",
+      label: "Helyszín & Szállás",
     },
     {
       ...getDestination("car", "church"),
       icon: "fa-church",
-      label: "Church",
+      label: "Templom",
     },
   ];
   const useCurrentLocation = () => {
