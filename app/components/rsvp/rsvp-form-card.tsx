@@ -59,15 +59,15 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           ref={successMessageRef}
           className="rounded-2xl border border-wedding-successBorder bg-wedding-successBg px-5 py-5 text-wedding-successText"
         >
-          <h2
-            className="font-display text-2xl text-wedding-successHeading"
-            
-          >
-            Koszonjuk, megkaptuk a visszajelzesed!
+          <h2 className="font-display text-2xl text-wedding-successHeading">
+            Koszonjuk, megkaptuk a visszajelzésed!
           </h2>
           <p className="mt-2 text-sm leading-6">
-            Elmentettuk az RSVP-d. Mi mar nagyon varjuk, hogy egyutt
-            unnepeljunk.
+            Mi már nagyon várjuk, hogy együtt
+            ünnepeljunk.
+          </p>
+          <p className="mt-2 text-sm leading-6">
+            Addig is nézz szét az oldalon, hogy minden fontos részletet megismerhess!
           </p>
         </div>
       )}
@@ -295,7 +295,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           <p className="text-xs leading-6 text-wedding-mutedSoft">
             A szállás részleteit{" "}
             <a
-              href="/travel"
+              href="/szallas"
               className="font-medium text-wedding-muted underline decoration-wedding-accentWarm underline-offset-4 transition hover:text-wedding-ink"
             >
               itt találod
@@ -311,7 +311,16 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           name="message"
           placeholder="Bármi egyéb amit tudatnál velünk."
         />
-
+          <p className="text-xs leading-6 -mt-4 text-wedding-mutedSoft">
+            Ha bármi kérdésed van még, először nézd meg{" "}
+            <a
+              href="/hasznos"
+              className="font-medium text-wedding-muted underline decoration-wedding-accentWarm underline-offset-4 transition hover:text-wedding-ink"
+            >
+              itt
+            </a>
+            .
+          </p>
           </>
         ) }
 

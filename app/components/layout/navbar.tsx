@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router";
 
 import { siteNavItems } from "./site-nav-items";
@@ -6,29 +6,13 @@ import { siteNavItems } from "./site-nav-items";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const navRef = useRef<HTMLElement>(null);
-  const shouldScrollToNavRef = useRef(false);
-
-  function scrollNavbarToTop() {
-    navRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
-  }
-
-  function handleNavItemClick() {
-    shouldScrollToNavRef.current = true;
-    scrollNavbarToTop();
-  }
 
   useEffect(() => {
     setIsOpen(false);
-
-    if (shouldScrollToNavRef.current) {
-      shouldScrollToNavRef.current = false;
-      window.requestAnimationFrame(scrollNavbarToTop);
-    }
   }, [location.pathname]);
 
   return (
-    <nav ref={navRef} className="border-t border-b border-wedding-borderPage">
+    <nav id="site-navbar" className="border-t border-b border-wedding-borderPage">
       <div className="mx-auto max-w-7xl px-6 py-4">
         <div className="-mx-6 -my-4 md:hidden">
           <button
@@ -50,7 +34,6 @@ export function Navbar() {
               to={item.to}
               end={item.to === "/"}
               preventScrollReset
-              onClick={handleNavItemClick}
               className={({ isActive }) =>
                 [
                   "relative inline-block pb-1 text-[11px] font-medium uppercase tracking-[0.28em] transition-colors duration-200",
@@ -81,7 +64,6 @@ export function Navbar() {
                   to={item.to}
                   end={item.to === "/"}
                   preventScrollReset
-                  onClick={handleNavItemClick}
                   className={({ isActive }) =>
                     [
                       "rounded-2xl px-4 py-3 text-center text-xs font-medium uppercase tracking-[0.24em] transition",
