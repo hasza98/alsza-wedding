@@ -127,7 +127,7 @@ const questions: Question[] = [
     question: "Hogyan jutok el az esküvő helyszínére?",
     answer: (
       <p>
-        Erről részletes tájékoztatót <a href="/helyszin">itt kaphatsz.</a>.
+        Erről részletes tájékoztatót <a href="/helyszin">itt kaphatsz</a>.
       </p>
     ),
   },
@@ -192,15 +192,11 @@ export default function QAndAPage() {
   return (
     <section className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8 text-center">
-        <p className="font-sans text-sm uppercase tracking-[0.35em] text-wedding-labelWarm">
-          Helpful details
-        </p>
         <h1 className="mt-4 font-display text-4xl text-wedding-ink sm:text-5xl">
-          Q + A
+          Hasznos infók
         </h1>
         <p className="mx-auto mt-4 max-w-2xl font-sans text-base leading-7 text-wedding-muted">
-          A few answers before the big day. Open anything you are wondering
-          about.
+          Itt remélhetőleg minden felmerülő kérdésre választ kaptok, ha mégsem, akkor az utolsó pontban tudtok további infót szerezni.
         </p>
       </div>
 
