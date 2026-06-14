@@ -142,9 +142,17 @@ const questions: Question[] = [
   {
     question: "Mit kell vinni ajándékba?",
     answer: (
-      <p>
-        Magadon kívül semmit! <br /> Ha mégis meglepnél minket, egy borítékkal nem lehet mellé lőni, de ha maradandó tárgyat adnál <a href="https://docs.google.com/spreadsheets/d/1H9UNWvLfmNZA_EbXMMnsJib3DGjN7p1qvkIdNfiWb5A/edit?usp=sharing" target="_blank">itt egy lista</a>, aminek biztos, hogy meglenne a helye a kis lakásunkban.
+      <>
+      <p className="mb-2">
+        Magadon kívül semmit! <br /> 
+        Ha mégis meglepnél minket, egy borítékkal nem lehet mellé lőni, de ha maradandó tárgyat adnál <a href="https://docs.google.com/spreadsheets/d/1H9UNWvLfmNZA_EbXMMnsJib3DGjN7p1qvkIdNfiWb5A/edit?usp=sharing" target="_blank">itt egy lista</a>, aminek biztos, hogy meglenne a helye a kis lakásunkban. <br/> 
+        Ezeket a <u>polgári esküvő utáni gratuláció során</u> lesz lehetőségetek átadni.
       </p>
+      <p>
+        Ha szeretnétek megtáncoltatni éjfélkor az ifjú párt, akkor mindenképp készüljetek <b>kaparós sorsjeggyel</b>, hogy meghozzátok a szerencsénk.
+      </p>
+      </>
+
     ),
   },
   {

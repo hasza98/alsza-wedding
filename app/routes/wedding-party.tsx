@@ -1,6 +1,14 @@
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 
-const timelineEvents = [
+type TimelineEvent = {
+  time: string;
+  title: string;
+  description: ReactNode;
+  icon: string;
+  startsNewDay?: boolean;
+};
+
+const timelineEvents: TimelineEvent[] = [
   {
     time: "13:00-15:00",
     title: "Szállás átvétel",
@@ -22,7 +30,7 @@ const timelineEvents = [
   {
     time: "17:15",
     title: "Polgári ceremónia",
-    description: "Kimondjuk az igent egy zászlós néni előtt, utána pedig koccintás.",
+    description: "Kimondjuk az igent egy zászlós néni előtt, utána pedig gratulációk és koccintás.",
     icon: "fa-ring",
   },
   {
@@ -58,8 +66,11 @@ const timelineEvents = [
   {
     time: "00:05-kifulladásig",
     title: "Menyecsketánc aztán buli amíg bírjuk",
-    description: "Aki már megtáncoltatta az ifjú párt, az rárabolhat az éjféli menüre. Aztán bulizunk amíg csak bírunk.",
-    icon: "fa-moon",
+    description: (
+      <p>
+        Egy kaparós sorsjegy fejében megpörgethetitek a menyasszonyt vagy a vőlegényt. <br/>Aki már megtáncoltatta az ifjú párt, az rárabolhat az éjféli menüre. Aztán bulizunk amíg csak bírunk.,
+      </p>),
+     icon: "fa-moon",
   },
   {
     time: "09:30-11:00",
@@ -127,9 +138,9 @@ export default function WeddingParty() {
                       <h2 className="mt-1 font-display text-2xl text-wedding-ink">
                         {event.title}
                       </h2>
-                      <p className="mt-2 font-sans text-sm leading-7 text-wedding-bodySoft">
+                      <div className="mt-2 font-sans text-sm leading-7 text-wedding-bodySoft">
                         {event.description}
-                      </p>
+                      </div>
                     </div>
                   </div>
 
