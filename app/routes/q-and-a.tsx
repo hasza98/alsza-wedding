@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 
-import contactPhotoDori from "../assets/photos/20221112_145907.jpg";
+import contactPhotoDori from "../assets/contacts/dori.jpg";
 import contactPhotoEvelin from "../assets/contacts/evelin.jpg";
 import contactPhotoSasa from "../assets/contacts/sasa.jpg";
 import contactPhotoBogi from "../assets/contacts/bogi.jpg";
@@ -32,23 +32,23 @@ const weddingContacts = [
     image: contactPhotoDori,
     position: "object-center",
   },
+    {
+    name: "Bogi",
+    title: "A menyasszony 1/2 tanúja, Koszorúslány",
+    image: contactPhotoBogi,
+    position: "object-center",
+  },
+    {
+    name: "Bandi",
+    title: "Koszorúsfiú",
+    image: contactPhotoBandi,
+    position: "object-center",
+  },
   {
     name: "Evelin",
     title: "A menyasszony 1/2 tanúja, Koszorúslány",
     image: contactPhotoEvelin,
     position: "object-top",
-  },
-  {
-    name: "Sasa",
-    title: "Koszorúsfiú",
-    image: contactPhotoSasa,
-    position: "object-center",
-  },
-  {
-    name: "Bogi",
-    title: "A menyasszony 1/2 tanúja, Koszorúslány",
-    image: contactPhotoBogi,
-    position: "object-center",
   },
   {
     name: "Carlos",
@@ -63,9 +63,9 @@ const weddingContacts = [
     position: "object-top",
   },
   {
-    name: "Bandi",
+    name: "Sasa",
     title: "Koszorúsfiú",
-    image: contactPhotoBandi,
+    image: contactPhotoSasa,
     position: "object-center",
   },
   {

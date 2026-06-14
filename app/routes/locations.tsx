@@ -45,7 +45,8 @@ export default function Locations() {
               Az esküvőnk helyszíne a györkönyi <a href="https://www.bbpince.hu/" target="_blank">Wine & Speiz Fogadó</a> lesz, ahol a vendégvárással indítjuk a napot. 
             </p>
             <p>
-              Innen közösen átmegyünk a Nagydorogi templomba, ahol Isten színe előtt letesszük a felbonthatatlan esküt. Ezután már csak egy rövid közös utat teszünk meg vissza Györkönybe ahol a polgári esküvő után kezdetét veszi a hajnalig tartó lakodalom. 
+              Innen közösen átmegyünk a Nagydorogi templomba, ahol Isten színe előtt letesszük a felbonthatatlan esküt. 
+              Ezután már csak egy rövid közös utat teszünk meg vissza Györkönybe, ahol a polgári esküvő után kezdetét veszi a hajnalig tartó lakodalom. 
             </p>
             <p>
               Reggel ugyanitt egy közös morzsapartyval pihenjük ki a <b>másnap</b> fáradalmait.

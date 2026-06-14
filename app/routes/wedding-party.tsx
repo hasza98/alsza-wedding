@@ -68,7 +68,7 @@ const timelineEvents: TimelineEvent[] = [
     title: "Menyecsketánc aztán buli amíg bírjuk",
     description: (
       <p>
-        Egy kaparós sorsjegy fejében megpörgethetitek a menyasszonyt vagy a vőlegényt. <br/>Aki már megtáncoltatta az ifjú párt, az rárabolhat az éjféli menüre. Aztán bulizunk amíg csak bírunk.,
+        Egy kaparós sorsjegy fejében megpörgethetitek a menyasszonyt vagy a vőlegényt. <br/>Aki már megtáncoltatta az ifjú párt, az rárabolhat az éjféli menüre. Aztán bulizunk amíg csak bírunk.
       </p>),
      icon: "fa-moon",
   },

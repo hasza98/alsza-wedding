@@ -34,8 +34,7 @@ const travelInformation: TravelInformation[] = [
     description: (
       <p>
         A Budapestről érkezve <a href="https://www.google.hu/maps/place/Nagydorog/@46.6157042,18.6476776,17z/data=!4m10!1m2!2m1!1zTmFneWRvcm9nIHZhc8O6dMOhbGxvbcOhcw!3m6!1s0x474263fe0ebfdb53:0x3e6ba24184f9b7a!8m2!3d46.615485!4d18.65002!15sChlOYWd5ZG9yb2cgdmFzw7p0w6FsbG9tw6FzkgENdHJhaW5fc3RhdGlvbuABAA!16s%2Fg%2F11cj90nf38?entry=ttu&g_ep=EgoyMDI2MDYwOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">Nagydorog Vasútállomást</a> érdemes megcélozni. Aki
-        ezt a megoldást választja, az tüntesse ezt fel megjegyzésben a <a href="/visszajelzes">visszajelzésnél</a> (hasznos ha odaírod várhatóan mikor ér be a vonatod), és
-        akkor garantáljuk a <b>prémium családi-taxi szolgáltatást</b> a helyszínre.
+        ezt a megoldást választja, az mindenképpen jelezze ezt az esküvő előtti napig és akkor garantáljuk a <b>prémium családi-taxi szolgáltatást</b> a helyszínre.
       </p>
     ),
     icon: "fa-train",

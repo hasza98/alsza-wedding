@@ -44,7 +44,7 @@ const photoMetadata: Record<string, PhotoMetadata> = {
   "20250913_173912.jpg": { caption: "Trixi & Tuti", position: "object-center" },
   "20250920_174753.jpg": { caption: "Jól sikerült családi vitorlázás", position: "object-center" },
   "20251104_101233.jpg": { caption: "Felejthetetlen hely - az ujját nézzétek", position: "object-center" },
-  "20251105_170919.jpg": { caption: "Futóbolondok novmberben...", position: "object-center" },
+  "20251105_170919.jpg": { caption: "Futóbolondok novmeberben...", position: "object-center" },
   "20260117_175607.jpg": { caption: "Garden of Lights '26", position: "object-center" },
   "20260419_222225.jpg": { caption: "Aliz szülinapja (és a szomszédok) túlélve ✅", position: "object-center" },
   "Aliz-Szatya-snowboardosnapok.jpg": { caption: "Chopok és Liptovszki Mikulás", position: "object-center" },
@@ -68,7 +68,7 @@ const photoMetadata: Record<string, PhotoMetadata> = {
   "IMG_2346.jpg": { caption: "Józsefvárosi Mikulásfutás", position: "object-center" },
   "IMG_2442.jpg": { caption: "Dunai naplementés SUPozás", position: "object-center" },
   "IMG_2710.jpg": { caption: "Túléltük Papa Sean koncertjét", position: "object-center" },
-  "received_651554755571652.jpeg": { caption: "Itt még nem tudták...", position: "object-center" },
+  "received_651554755571652.jpeg": { caption: "Itt még nem tudtuk...", position: "object-center" },
 };
 
 const photos = Object.entries(photoModules)
@@ -89,10 +89,29 @@ const photos = Object.entries(photoModules)
 
 type Photo = (typeof photos)[number];
 
+function shufflePhotos(items: Photo[]) {
+  const shuffled = [...items];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
+
+  return shuffled;
+}
+
 export function PhotoGallery() {
   const [activeMobileCaption, setActiveMobileCaption] = useState<string | null>(
     null,
   );
+  const [orderedPhotos, setOrderedPhotos] = useState(photos);
+
+  useEffect(() => {
+    setOrderedPhotos(shufflePhotos(photos));
+  }, []);
 
   if (photos.length === 0) {
     return (
@@ -107,7 +126,7 @@ export function PhotoGallery() {
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {photos.map((photo) => (
+      {orderedPhotos.map((photo) => (
         <PhotoCard
           key={photo.src}
           photo={photo}
