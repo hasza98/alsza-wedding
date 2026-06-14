@@ -60,7 +60,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           className="rounded-2xl border border-wedding-successBorder bg-wedding-successBg px-5 py-5 text-wedding-successText"
         >
           <h2 className="font-display text-2xl text-wedding-successHeading">
-            Koszonjuk, megkaptuk a visszajelzésed!
+            Köszönjük, megkaptuk a visszajelzésed!
           </h2>
           <p className="mt-2 text-sm leading-6">
             Mi már nagyon várjuk, hogy együtt

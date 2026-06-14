@@ -1,14 +1,11 @@
 import { useState, type KeyboardEvent } from "react";
 
 const mealOptions = [
-  "No preference",
-  "Vegetarian",
-  "Vegan",
-  "Gluten-free",
-  "Dairy-free",
-  "Nut-free",
-  "Halal",
-  "Kosher",
+  "Mindenevő",
+  "Vegetáriánus",
+  "Vegán",
+  "Gluténmentes",
+  "Laktózmentes",
 ];
 
 type MealPreferenceFieldProps = {

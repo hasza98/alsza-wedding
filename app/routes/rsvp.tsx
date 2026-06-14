@@ -77,7 +77,7 @@ export async function action({ request }: Route.ActionArgs) {
   if (!response.ok) {
     return {
       error:
-        "We could not send your RSVP just now. Please try again in a moment.",
+        "Hajjajj valami upszi történt. Magasan képzett majmaink dolgoznak a probléma elhárításán, kérlek próbáld meg később.",
     };
   }
 
