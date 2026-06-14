@@ -247,8 +247,6 @@ function QuestionItem({ item }: { item: Question }) {
           <div
             className={[
               "border-t border-wedding-border px-5 font-sans text-sm leading-7 text-wedding-bodySoft transition-[padding,opacity] duration-300 ease-in-out",
-              "[&_a]:font-medium [&_a]:text-wedding-labelWarm [&_a]:underline [&_a]:decoration-wedding-accentWarm [&_a]:decoration-1 [&_a]:underline-offset-4 [&_a]:transition-colors",
-              "[&_a:hover]:text-wedding-ink [&_a:hover]:decoration-wedding-ink [&_a:focus-visible]:rounded-sm [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4 [&_a:focus-visible]:outline-wedding-accent",
               isOpen ? "pb-5 pt-4 opacity-100" : "pb-0 pt-0 opacity-0",
             ].join(" ")}
           >

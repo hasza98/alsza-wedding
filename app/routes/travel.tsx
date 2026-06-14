@@ -1,378 +1,103 @@
-import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 
-const venueName = "Wein&Speiz Fogadó";
-const venueAddress = "Györköny, Petőfi Sandor u. 386";
-const churchName = "Nagydorogi Szent István király templom";
-const churchAddress = "Nagydorog, Kossuth Lajos utca";
-const publicTransportPointName = "Nagydorog vasútállomás";
-const publicTransportPointAddress = "Nagydorog, vasútállomás";
+const venueAddress = "Wein & Speiz Fogadó, Györköny, Petőfi Sándor utca 386";
+const trainStationAddress = "Nagydorog vasútállomás";
 
-const telecarSheetUrl = "https://docs.google.com/spreadsheets/";
-
-type TravelMethod = "car" | "publicTransport" | "telecar";
-type DestinationChoice = "venue" | "church";
-
-type Destination = {
-  name: string;
-  address: string;
+type TravelInformation = {
+  title: string;
+  description: ReactNode;
+  icon: string;
 };
 
-function getDestination(
-  travelMethod: TravelMethod,
-  destinationChoice: DestinationChoice,
-): Destination {
-  if (travelMethod === "publicTransport") {
-    return {
-      name: publicTransportPointName,
-      address: publicTransportPointAddress,
-    };
-  }
+const travelInformation: TravelInformation[] = [
+  {
+    title: "Autóval jönnél és még van pár üres helyed?",
+    description: (
+      <p>
+        Ebben az esetben kérlek <a href="https://docs.google.com/spreadsheets/d/1DKUyXXzY1NrKGo3nCoznba6gkVFDbDlQjNNTcP6gk_U/edit?usp=sharing" target="_blank">ebben a táblázatban</a> jelezd, hogy honnan indulsz,
+        hány üres hellyel és fogadj be pár potyázó barátot, akik szórakoztatnak az úton.
+      </p>
+    ),
+    icon: "fa-car-side",
+  },
+  {
+    title: "Nincs még fuvarod az esküvőre?",
+    description: (
+      <p>
+        Csekkold <a href="https://docs.google.com/spreadsheets/d/1DKUyXXzY1NrKGo3nCoznba6gkVFDbDlQjNNTcP6gk_U/edit?usp=sharing" target="_blank">ezt a táblázatot</a>, hátha akad egy üres hely, ami pont rád vár.
+      </p>
+    ),
+    icon: "fa-people-group",
+  },
+  {
+    title: "Tömegközlekednél?",
+    description: (
+      <p>
+        A Budapestről érkezve <a href="https://www.google.hu/maps/place/Nagydorog/@46.6157042,18.6476776,17z/data=!4m10!1m2!2m1!1zTmFneWRvcm9nIHZhc8O6dMOhbGxvbcOhcw!3m6!1s0x474263fe0ebfdb53:0x3e6ba24184f9b7a!8m2!3d46.615485!4d18.65002!15sChlOYWd5ZG9yb2cgdmFzw7p0w6FsbG9tw6FzkgENdHJhaW5fc3RhdGlvbuABAA!16s%2Fg%2F11cj90nf38?entry=ttu&g_ep=EgoyMDI2MDYwOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">Nagydorog Vasútállomást</a> érdemes megcélozni. Aki
+        ezt a megoldást választja, az tüntesse ezt fel megjegyzésben a <a href="/visszajelzes">visszajelzésnél</a> (hasznos ha odaírod várhatóan mikor ér be a vonatod), és
+        akkor garantáljuk a <b>prémium családi-taxi szolgáltatást</b> a helyszínre.
+      </p>
+    ),
+    icon: "fa-train",
+  },
+];
 
-  if (destinationChoice === "church") {
-    return {
-      name: churchName,
-      address: churchAddress,
-    };
-  }
-
-  return {
-    name: venueName,
-    address: venueAddress,
-  };
-}
-
-function buildMapsUrl(
-  origin: string,
-  destination: Destination,
-  travelMethod: TravelMethod,
-) {
+function buildTravelMapUrl() {
   const params = new URLSearchParams({
     output: "embed",
-    daddr: destination.address,
-    dirflg: travelMethod === "publicTransport" ? "r" : "d",
+    saddr: trainStationAddress,
+    daddr: venueAddress,
+    dirflg: "d",
   });
-
-  if (origin.trim()) {
-    params.set("saddr", origin.trim());
-  } else {
-    params.set("q", destination.address);
-  }
 
   return `https://www.google.com/maps?${params.toString()}`;
 }
 
-function buildExternalDirectionsUrl(
-  origin: string,
-  destination: Destination,
-  travelMethod: TravelMethod,
-) {
-  const params = new URLSearchParams({
-    api: "1",
-    destination: destination.address,
-    travelmode: travelMethod === "publicTransport" ? "transit" : "driving",
-  });
-
-  if (origin.trim()) {
-    params.set("origin", origin.trim());
-  }
-
-  return `https://www.google.com/maps/dir/?${params.toString()}`;
-}
-
-function buildPlaceMapsUrl(destination: Destination) {
-  const params = new URLSearchParams({
-    api: "1",
-    destination: destination.address,
-  });
-
-  return `https://www.google.com/maps/dir/?${params.toString()}`;
-}
-
 export default function Travel() {
-  const [originInput, setOriginInput] = useState("");
-  const [routeOrigin, setRouteOrigin] = useState("");
-  const [travelMethod, setTravelMethod] = useState<TravelMethod>("car");
-  const [destinationChoice, setDestinationChoice] =
-    useState<DestinationChoice>("venue");
-  const [locationStatus, setLocationStatus] = useState<
-    "idle" | "loading" | "error"
-  >("idle");
-  const destination = useMemo(
-    () => getDestination(travelMethod, destinationChoice),
-    [destinationChoice, travelMethod],
-  );
-  const mapUrl = useMemo(
-    () => buildMapsUrl(routeOrigin, destination, travelMethod),
-    [destination, routeOrigin, travelMethod],
-  );
-  const directionsUrl = useMemo(
-    () => buildExternalDirectionsUrl(routeOrigin, destination, travelMethod),
-    [destination, routeOrigin, travelMethod],
-  );
-  const keyLocations = [
-    {
-      ...getDestination("car", "venue"),
-      icon: "fa-champagne-glasses",
-      label: "Helyszín & Szállás",
-    },
-    {
-      ...getDestination("car", "church"),
-      icon: "fa-church",
-      label: "Templom",
-    },
-  ];
-  const useCurrentLocation = () => {
-    if (!navigator.geolocation) {
-      setLocationStatus("error");
-      return;
-    }
-
-    setLocationStatus("loading");
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const currentLocation = `${position.coords.latitude},${position.coords.longitude}`;
-        setOriginInput(currentLocation);
-        setRouteOrigin(currentLocation);
-        setLocationStatus("idle");
-      },
-      () => setLocationStatus("error"),
-      { enableHighAccuracy: true, timeout: 10000 },
-    );
-  };
-
   return (
     <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8 text-center">
-        <p className="font-sans text-sm uppercase tracking-[0.35em] text-wedding-labelWarm">
-          Travel
-        </p>
         <h1 className="mt-4 font-display text-4xl text-wedding-ink sm:text-5xl">
-          Route Planner
+          Lejutás
         </h1>
         <p className="mx-auto mt-4 max-w-2xl font-sans text-base leading-7 text-wedding-muted">
-          Enter where you are starting from and choose how you are travelling.
+          Összegyűjtöttük a legfontosabb tudnivalókat, hogy mindenki
+          kényelmesen eljusson az esküvő helyszínére.
         </p>
       </div>
 
-      <div className="mb-8 grid gap-4 sm:grid-cols-2">
-        {keyLocations.map((location) => (
-          <div
-            key={location.label}
-            className="rounded-[2rem] border border-wedding-borderSoft bg-wedding-surface p-5 shadow-wedding-card"
-          >
-            <div className="flex items-start gap-4">
-              <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-wedding-border bg-wedding-surfaceWarm text-wedding-muted">
-                <i
-                  className={`fa-solid ${location.icon} text-base`}
-                  aria-hidden="true"
-                ></i>
-              </span>
-              <div className="min-w-0">
-                <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-wedding-labelWarm">
-                  {location.label}
-                </p>
-                <h2 className="mt-2 font-display text-2xl text-wedding-ink">
-                  {location.name}
-                </h2>
-                <p className="mt-1 font-sans text-sm leading-6 text-wedding-bodySoft">
-                  {location.address}
-                </p>
-                <a
-                  href={buildPlaceMapsUrl(location)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 font-sans text-sm font-medium text-wedding-muted underline decoration-wedding-accentWarm underline-offset-4 transition hover:text-wedding-ink"
-                >
-                  Open route in Maps
+      <div className="grid gap-4 lg:grid-cols-[1fr_1.15fr]">
+        <div className="grid gap-4">
+          {travelInformation.map((item) => (
+            <div
+              key={item.title}
+              className="rounded-[2rem] border border-wedding-borderSoft bg-wedding-surface p-5 shadow-wedding-card"
+            >
+              <div className="flex items-start gap-4">
+                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-wedding-border bg-wedding-surfaceWarm text-wedding-muted">
                   <i
-                    className="fa-solid fa-arrow-up-right-from-square text-xs"
+                    className={`fa-solid ${item.icon} text-base`}
                     aria-hidden="true"
-                  ></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-        <div className="rounded-[2rem] border border-wedding-borderSoft bg-wedding-surface p-6 shadow-wedding-card">
-          <form
-            className="space-y-5"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setRouteOrigin(originInput);
-            }}
-          >
-            <div>
-              <label
-                htmlFor="travelMethod"
-                className="mb-2 block font-sans text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted"
-              >
-                Travel method
-              </label>
-              <select
-                id="travelMethod"
-                name="travelMethod"
-                value={travelMethod}
-                onChange={(event) =>
-                  setTravelMethod(event.target.value as TravelMethod)
-                }
-                className="w-full appearance-none rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3 text-base text-wedding-ink outline-none transition focus:border-wedding-accent focus:ring-2 focus:ring-wedding-accentSoft"
-              >
-                <option value="car">Car</option>
-                <option value="telecar">Tele-Car / carsharing</option>
-                <option value="publicTransport">Public transport</option>
-              </select>
-            </div>
-
-            {travelMethod !== "publicTransport" && (
-              <fieldset>
-                <legend className="mb-2 block font-sans text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted">
-                  Destination
-                </legend>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <label
-                    className={`flex cursor-pointer items-center justify-center rounded-2xl border px-4 py-3 font-sans text-sm font-medium uppercase tracking-[0.18em] transition ${
-                      destinationChoice === "venue"
-                        ? "border-wedding-accent bg-wedding-panelSelected text-wedding-ink shadow-wedding-radio"
-                        : "border-wedding-border bg-wedding-surfaceWarm text-wedding-muted hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="destinationChoice"
-                      value="venue"
-                      checked={destinationChoice === "venue"}
-                      onChange={() => setDestinationChoice("venue")}
-                      className="sr-only"
-                    />
-                    Venue
-                  </label>
-                  <label
-                    className={`flex cursor-pointer items-center justify-center rounded-2xl border px-4 py-3 font-sans text-sm font-medium uppercase tracking-[0.18em] transition ${
-                      destinationChoice === "church"
-                        ? "border-wedding-accent bg-wedding-panelSelected text-wedding-ink shadow-wedding-radio"
-                        : "border-wedding-border bg-wedding-surfaceWarm text-wedding-muted hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="destinationChoice"
-                      value="church"
-                      checked={destinationChoice === "church"}
-                      onChange={() => setDestinationChoice("church")}
-                      className="sr-only"
-                    />
-                    Church
-                  </label>
+                  />
+                </span>
+                <div className="min-w-0">
+                  <h2 className="font-display text-2xl leading-tight text-wedding-ink">
+                    {item.title}
+                  </h2>
+                  <div className="mt-2 font-sans text-sm leading-7 text-wedding-bodySoft">
+                    {item.description}
+                  </div>
                 </div>
-              </fieldset>
-            )}
-
-            <div>
-              <label
-                htmlFor="routeOrigin"
-                className="mb-2 block font-sans text-sm font-medium uppercase tracking-[0.2em] text-wedding-muted"
-              >
-                Starting point
-              </label>
-              <div className="flex items-center gap-3 rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3 transition focus-within:border-wedding-accent focus-within:ring-2 focus-within:ring-wedding-accentSoft">
-                <input
-                  id="routeOrigin"
-                  name="routeOrigin"
-                  type="text"
-                  value={originInput}
-                  onChange={(event) => setOriginInput(event.target.value)}
-                  placeholder="Your address, city, or hotel"
-                  className="min-w-0 flex-1 bg-transparent text-base text-wedding-ink outline-none placeholder:text-wedding-placeholder"
-                />
-                <button
-                  type="button"
-                  onClick={useCurrentLocation}
-                  aria-label="Use current location"
-                  title="Use current location"
-                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-wedding-border bg-wedding-surface text-wedding-muted transition hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
-                >
-                  <i
-                    className={`fa-solid ${
-                      locationStatus === "loading"
-                        ? "fa-spinner animate-spin"
-                        : "fa-location-crosshairs"
-                    } text-sm`}
-                    aria-hidden="true"
-                  ></i>
-                </button>
               </div>
-              {locationStatus === "error" && (
-                <p className="mt-2 text-sm font-medium text-wedding-errorText">
-                  We could not access your current location. Please type your
-                  starting point instead.
-                </p>
-              )}
             </div>
-
-            <div className="rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3">
-              <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-wedding-muted">
-                Destination
-              </p>
-              <p className="mt-2 font-sans text-base text-wedding-ink">
-                {destination.name}
-              </p>
-              <p className="mt-1 font-sans text-sm leading-6 text-wedding-bodySoft">
-                {destination.address}
-              </p>
-              {travelMethod === "publicTransport" && (
-                <p className="mt-2 font-sans text-sm leading-6 text-wedding-muted">
-                  Public transport routes lead to this nearby point of interest
-                  instead of the venue driveway. We will organize transport from
-                  the station to the venue.
-                </p>
-              )}
-              {travelMethod === "telecar" && (
-                <p className="mt-2 font-sans text-sm leading-6 text-wedding-muted">
-                  We will organize shared cars in{" "}
-                  <a
-                    href={telecarSheetUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-medium text-wedding-muted underline decoration-wedding-accentWarm underline-offset-4 transition hover:text-wedding-ink"
-                  >
-                    this Tele-Car sheet
-                  </a>
-                  .
-                </p>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-wedding-ink px-6 py-4 font-sans text-sm font-medium uppercase leading-none tracking-[0.25em] text-wedding-onInk transition hover:bg-wedding-buttonHover"
-            >
-              <i
-                className="fa-solid fa-route inline-flex h-[1em] w-[1em] items-center justify-center text-[1em] leading-none"
-                aria-hidden="true"
-              ></i>
-              Plan Route
-            </button>
-
-            <a
-              href={directionsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex w-full items-center justify-center rounded-full border border-wedding-border px-6 py-3 font-sans text-sm font-medium uppercase tracking-[0.18em] text-wedding-muted transition hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
-            >
-              Open in Google Maps
-            </a>
-          </form>
+          ))}
         </div>
 
-        <div className="overflow-hidden rounded-[2rem] border border-wedding-borderWarm bg-wedding-panel shadow-wedding-card">
+        <div className="min-h-[32rem] overflow-hidden rounded-[2rem] border border-wedding-borderWarm bg-wedding-panel shadow-wedding-card">
           <iframe
-            key={mapUrl}
-            title="Route planner to the wedding destination"
-            src={mapUrl}
-            className="h-[28rem] w-full border-0 lg:h-full lg:min-h-[36rem]"
+            title="Útvonal Nagydorog vasútállomás és az esküvő helyszíne között"
+            src={buildTravelMapUrl()}
+            className="h-full min-h-[32rem] w-full border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />

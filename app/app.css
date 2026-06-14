@@ -10,3 +10,15 @@ body {
 body {
   min-height: 100vh;
 }
+
+a:not(nav a) {
+  @apply font-medium text-wedding-labelWarm underline decoration-wedding-accentWarm decoration-1 underline-offset-4 transition-colors;
+}
+
+a:not(nav a):hover {
+  @apply text-wedding-ink decoration-wedding-ink;
+}
+
+a:not(nav a):focus-visible {
+  @apply rounded-sm outline-2 outline-offset-4 outline-wedding-accent;
+}
