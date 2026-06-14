@@ -65,8 +65,6 @@ export default function Travel() {
           kényelmesen eljusson az esküvő helyszínére.
         </p>
       </div>
-
-      <div className="grid gap-4 lg:grid-cols-[1fr_1.15fr]">
         <div className="grid gap-4">
           {travelInformation.map((item) => (
             <div
@@ -92,17 +90,6 @@ export default function Travel() {
             </div>
           ))}
         </div>
-
-        <div className="min-h-[32rem] overflow-hidden rounded-[2rem] border border-wedding-borderWarm bg-wedding-panel shadow-wedding-card">
-          <iframe
-            title="Útvonal Nagydorog vasútállomás és az esküvő helyszíne között"
-            src={buildTravelMapUrl()}
-            className="h-full min-h-[32rem] w-full border-0"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
-      </div>
     </section>
   );
 }

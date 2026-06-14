@@ -26,11 +26,8 @@ export default function Locations() {
   return (
     <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8 text-center">
-        <p className="font-sans text-sm uppercase tracking-[0.35em] text-wedding-labelWarm">
-          Utazás
-        </p>
         <h1 className="mt-4 font-display text-4xl text-wedding-ink sm:text-5xl">
-          Helyszínek és megközelítés
+          Helyszín
         </h1>
         <p className="mx-auto mt-4 max-w-2xl font-sans text-base leading-7 text-wedding-muted">
           Minden fontos tudnivaló, hogy könnyen megtaláljátok a szertartás és
@@ -40,11 +37,8 @@ export default function Locations() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-[2rem] border border-wedding-borderSoft bg-wedding-surface p-6 shadow-wedding-card sm:p-8">
-          <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-wedding-labelWarm">
-            Utazás
-          </p>
           <h1 className="mt-3 font-display text-3xl text-wedding-ink">
-            Megközelítés
+            A nagy nap helyszínei
           </h1>
           <div className="mt-5 space-y-4 font-sans text-sm leading-7 text-wedding-bodySoft">
             <p>
