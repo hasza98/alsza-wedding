@@ -3,47 +3,50 @@ import { useState } from "react";
 type PaymentMethod = "bank" | "revolut" | "nature";
 
 const paymentOptions: Array<{ label: string; value: PaymentMethod }> = [
-  { label: "Bank", value: "bank" },
+  { label: "Utalás", value: "bank" },
   { label: "Revolut", value: "revolut" },
-  { label: "Nature", value: "nature" },
+  { label: "Természet", value: "nature" },
 ];
 
 const paymentDetails: Record<
-  PaymentMethod,
+  Exclude<PaymentMethod, "nature">,
   Array<{ label: string; value: string }>
 > = {
   bank: [
-    { label: "Account holder", value: "Name Surname" },
-    { label: "Bank account / IBAN", value: "HU00 0000 0000 0000 0000 0000 0000" },
-    { label: "Note", value: "Accommodation - your name" },
+    { label: "Kedvezményezett", value: "Hadarics Szabolcs" },
+    { label: "Számlaszám", value: "12010374 01971738 00100001" },
+    { label: "Közlemény", value: "Esküvői szállás - Név" },
   ],
   revolut: [
-    { label: "Revolut name", value: "@username" },
-    { label: "Recipient", value: "Name Surname" },
-    { label: "Note", value: "Accommodation - your name" },
-  ],
-  nature: [
-    { label: "Option", value: "Bring something useful for the weekend" },
-    { label: "Please coordinate with", value: "Name Surname" },
-    { label: "Note", value: "Let us know before the wedding" },
+    { label: "Revolut tag", value: "@szabolcs.hadarics" },
+    { label: "Megjegyzés", value: "Esküvői szállás - Név" },
   ],
 };
 
 export default function Accommodation() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("bank");
+  const [copiedValue, setCopiedValue] = useState<string | null>(null);
+
+  async function copyPaymentValue(value: string) {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedValue(value);
+      window.setTimeout(() => {
+        setCopiedValue((current) => (current === value ? null : current));
+      }, 2000);
+    } catch {
+      setCopiedValue(null);
+    }
+  }
 
   return (
     <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8 text-center">
-        <p className="font-sans text-sm uppercase tracking-[0.35em] text-wedding-labelWarm">
-          Accommodation
-        </p>
         <h1 className="mt-4 font-display text-4xl text-wedding-ink sm:text-5xl">
-          Where To Sleep
+          Szállás
         </h1>
         <p className="mx-auto mt-4 max-w-2xl font-sans text-base leading-7 text-wedding-muted">
-          We will collect accommodation needs through the RSVP form and share
-          the exact details once everything is organized.
+          Itt mindent megtaláltok az ágyikóitokkal kapcsolatban. A szállás igényeiteket a visszajelzési űrlapon adhatjátok le.
         </p>
       </div>
 
@@ -54,20 +57,18 @@ export default function Accommodation() {
               <i className="fa-solid fa-bed" aria-hidden="true"></i>
             </span>
             <div>
-              <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-wedding-labelWarm">
-                The place
-              </p>
               <h2 className="mt-2 font-display text-2xl text-wedding-ink">
-                Sleeping close to the party
+                Szálláslehetőségek
               </h2>
               <p className="mt-3 font-sans text-sm leading-7 text-wedding-bodySoft">
-                We are organizing nearby accommodation for guests who would like
-                to stay after the celebration. Please mark your accommodation
-                preference in the RSVP form so we can plan the rooms properly.
+                Az éjszakai elhelyezés szerencsésebbeknek a <a href="/helyszin">helyszínen</a>, még szerencsésebbeknek pedig a falu Mama-Hoteljeiben lesz. 
+                Nem kell aggódni pár perc séta alatt a saját ágyatoknál találjátok magatokat mindkét esetben. 
               </p>
               <p className="mt-3 font-sans text-sm leading-7 text-wedding-bodySoft">
-                Once the final headcount is clear, we will confirm the exact
-                room assignments and any practical arrival details.
+                A szállások átvétele <b>13:00-tól</b> lehetséges a helyszínen, innen írányítunk titeket tovább a rezidenciátokba, és miután elkészült a hajatok és a sminketek, várunk vissza a finom falatokra és jéghideg italokra. 
+              </p>
+              <p className="mt-3 font-sans text-sm leading-7 text-wedding-bodySoft">
+                Másnap a szállásokat <b>XX:XX-ig</b> kell elhagynunk, de mindenképpen nézzetek be a <b>morzsapartyra</b> mielőtt hazamennétek. 
               </p>
             </div>
           </div>
@@ -79,15 +80,11 @@ export default function Accommodation() {
               <i className="fa-solid fa-money-bill-transfer" aria-hidden="true"></i>
             </span>
             <div className="min-w-0">
-              <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-wedding-labelWarm">
-                Payment
-              </p>
               <h2 className="mt-2 font-display text-2xl text-wedding-ink">
-                Accommodation fee
+                Fizetési információ
               </h2>
               <p className="mt-3 font-sans text-sm leading-7 text-wedding-bodySoft">
-                If you are staying overnight, please send the accommodation fee
-                using the details below.
+                A szállások egységesen 8000 Forintba kerülnek fejenként, ezt kérlek juttassátok el hozzánk <b>Augusztus 20.-ig</b> az itt felsorolt módok egyikén.
               </p>
 
               <div className="mt-5 grid gap-2 rounded-2xl border border-wedding-border bg-wedding-surfaceWarm p-1 sm:grid-cols-3">
@@ -107,21 +104,58 @@ export default function Accommodation() {
                 ))}
               </div>
 
-              <dl className="mt-5 space-y-3 font-sans text-sm">
-                {paymentDetails[paymentMethod].map((detail) => (
+              {paymentMethod === "nature" ? (
+                <div className="mt-5 rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-6 py-8 text-center">
                   <div
-                    key={detail.label}
-                    className="rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3"
+                    className="text-7xl leading-none sm:text-8xl"
+                    aria-hidden="true"
                   >
-                    <dt className="text-xs font-medium uppercase tracking-[0.18em] text-wedding-muted">
-                      {detail.label}
-                    </dt>
-                    <dd className="mt-1 break-words text-wedding-ink">
-                      {detail.value}
-                    </dd>
+                    😉
                   </div>
-                ))}
-              </dl>
+                  <p className="mx-auto mt-5 max-w-sm font-display text-2xl leading-8 text-wedding-ink">
+                    Te kis huncut, mit keresel itt?
+                  </p>
+                </div>
+              ) : (
+                <dl className="mt-5 space-y-3 font-sans text-sm">
+                  {paymentDetails[paymentMethod].map((detail) => (
+                    <div
+                      key={detail.label}
+                      className="flex items-center justify-between gap-4 rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3"
+                    >
+                      <div className="min-w-0">
+                        <dt className="text-xs font-medium uppercase tracking-[0.18em] text-wedding-muted">
+                          {detail.label}
+                        </dt>
+                        <dd className="mt-1 break-words text-wedding-ink">
+                          {detail.value}
+                        </dd>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => copyPaymentValue(detail.value)}
+                        aria-label={`${detail.label} másolása`}
+                        title={`${detail.label} másolása`}
+                        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-wedding-border bg-wedding-surface text-wedding-muted transition hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
+                      >
+                        <i
+                          className={`fa-solid ${
+                            copiedValue === detail.value
+                              ? "fa-check text-wedding-successText"
+                              : "fa-copy"
+                          }`}
+                          aria-hidden="true"
+                        />
+                        <span className="sr-only">
+                          {copiedValue === detail.value
+                            ? "Másolva"
+                            : `${detail.label} másolása`}
+                        </span>
+                      </button>
+                    </div>
+                  ))}
+                </dl>
+              )}
             </div>
           </div>
         </div>
