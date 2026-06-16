@@ -105,6 +105,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           label="Név"
           name="guestName"
           placeholder="Mikorka Kálmán"
+          autoComplete="name"
           showInvalid={showInvalid("guestName")}
           required
         />
@@ -115,6 +116,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           name="email"
           placeholder="kálmán@anagy.hu"
           type="email"
+          autoComplete="email"
           showInvalid={showInvalid("email")}
           errorMessage="Légyszi használható emailt adj meg."
           required
@@ -126,6 +128,7 @@ export function RsvpFormCard({ isSubmitted, error }: RsvpFormCardProps) {
           name="phone"
           placeholder="+36 30 123 4567"
           type="tel"
+          autoComplete="tel"
           pattern="^(\+?36)?[ -]?(\d{1,2}|(\(\d{1,2}\)))/?([ -]?\d){6,7}$"
           showInvalid={showInvalid("phone")}
           errorMessage="Bocsi, csak ezt a formát szeretem: +36 30 123 4567."

@@ -11,6 +11,7 @@ type FormFieldProps = {
   max?: string;
   pattern?: string;
   title?: string;
+  autoComplete?: string;
   showInvalid?: boolean;
   errorMessage?: string;
   value?: string | number;
@@ -28,6 +29,7 @@ export function FormField({
   max,
   pattern,
   title,
+  autoComplete,
   showInvalid = false,
   errorMessage = "Légyszi tölts ki.",
   value,
@@ -51,6 +53,7 @@ export function FormField({
         max={max}
         pattern={pattern}
         title={title}
+        autoComplete={autoComplete}
         value={value}
         onChange={onChange}
         className={`peer w-full rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3 text-base text-wedding-ink outline-none transition placeholder:text-wedding-placeholder focus:border-wedding-accent focus:ring-2 focus:ring-wedding-accentSoft ${
