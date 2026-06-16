@@ -11,10 +11,13 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import monogramLogo from "./assets/monogram/ASZ_nobg.png";
 import { SiteHeader } from "./components/layout/site-header";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", href: monogramLogo, type: "image/png" },
+  { rel: "apple-touch-icon", href: monogramLogo },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
