@@ -14,7 +14,7 @@ const travelInformation: TravelInformation[] = [
     title: "Autóval jönnél és még van pár üres helyed?",
     description: (
       <p>
-        Ebben az esetben kérlek <a href="https://docs.google.com/spreadsheets/d/1DKUyXXzY1NrKGo3nCoznba6gkVFDbDlQjNNTcP6gk_U/edit?usp=sharing" target="_blank">ebben a táblázatban</a> jelezd, hogy honnan indulsz,
+        Ha igen, akkor kérlek <a href="https://docs.google.com/spreadsheets/d/1DKUyXXzY1NrKGo3nCoznba6gkVFDbDlQjNNTcP6gk_U/edit?usp=sharing" target="_blank">ebben a táblázatban</a> jelezd, hogy honnan indulsz,
         hány üres hellyel és fogadj be pár potyázó barátot, akik szórakoztatnak az úton.
       </p>
     ),

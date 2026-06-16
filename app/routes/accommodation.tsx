@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import revolutQr from "../assets/qr/qrfeherrevo.png";
+
 type PaymentMethod = "bank" | "revolut" | "nature";
 
 const paymentOptions: Array<{ label: string; value: PaymentMethod }> = [
@@ -23,9 +25,12 @@ const paymentDetails: Record<
   ],
 };
 
+const revolutPaymentLink = "https://revolut.me/szabolcshadarics?currency=HUF&amount=800000&note=Esk%C3%BCv%C5%91i%20sz%C3%A1ll%C3%A1s%20-";
+
 export default function Accommodation() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("bank");
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
+  const [isRevolutQrOpen, setIsRevolutQrOpen] = useState(false);
 
   async function copyPaymentValue(value: string) {
     try {
@@ -84,7 +89,7 @@ export default function Accommodation() {
                 Fizetési információ
               </h2>
               <p className="mt-3 font-sans text-sm leading-7 text-wedding-bodySoft">
-                A szállások egységesen 8000 Forintba kerülnek fejenként, ezt kérlek juttassátok el hozzánk <b>Augusztus 20.-ig</b> az itt felsorolt módok egyikén.
+                A szállások egységesen 8000 forintba kerülnek fejenként, ezt kérlek juttassátok el hozzánk <b>augusztus 20-ig</b> az itt felsorolt módok egyikén.
               </p>
 
               <div className="mt-5 grid gap-2 rounded-2xl border border-wedding-border bg-wedding-surfaceWarm p-1 sm:grid-cols-3">
@@ -117,49 +122,122 @@ export default function Accommodation() {
                   </p>
                 </div>
               ) : (
-                <dl className="mt-5 space-y-3 font-sans text-sm">
-                  {paymentDetails[paymentMethod].map((detail) => (
-                    <div
-                      key={detail.label}
-                      className="flex items-center justify-between gap-4 rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3"
-                    >
-                      <div className="min-w-0">
-                        <dt className="text-xs font-medium uppercase tracking-[0.18em] text-wedding-muted">
-                          {detail.label}
-                        </dt>
-                        <dd className="mt-1 break-words text-wedding-ink">
-                          {detail.value}
-                        </dd>
+                <>
+                  <dl className="mt-5 space-y-3 font-sans text-sm">
+                    {paymentDetails[paymentMethod].map((detail) => (
+                      <div
+                        key={detail.label}
+                        className="flex items-center justify-between gap-4 rounded-2xl border border-wedding-border bg-wedding-surfaceWarm px-4 py-3"
+                      >
+                        <div className="min-w-0">
+                          <dt className="text-xs font-medium uppercase tracking-[0.18em] text-wedding-muted">
+                            {detail.label}
+                          </dt>
+                          <dd className="mt-1 break-words text-wedding-ink">
+                            {detail.value}
+                          </dd>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => copyPaymentValue(detail.value)}
+                          aria-label={`${detail.label} másolása`}
+                          title={`${detail.label} másolása`}
+                          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-wedding-border bg-wedding-surface text-wedding-muted transition hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
+                        >
+                          <i
+                            className={`fa-solid ${
+                              copiedValue === detail.value
+                                ? "fa-check text-wedding-successText"
+                                : "fa-copy"
+                            }`}
+                            aria-hidden="true"
+                          />
+                          <span className="sr-only">
+                            {copiedValue === detail.value
+                              ? "Másolva"
+                              : `${detail.label} másolása`}
+                          </span>
+                        </button>
                       </div>
+                    ))}
+                  </dl>
+
+                  {paymentMethod === "revolut" && (
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <a href={revolutPaymentLink}
+                        target="_blank"
+                        rel="noreferrer">
+                     <button className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-wedding-border bg-wedding-surfaceWarm px-5 py-3 font-sans text-xs font-medium uppercase tracking-[0.18em] text-wedding-muted no-underline transition hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink">
+                        <i
+                          className="fa-solid fa-mobile-screen-button"
+                          aria-hidden="true"
+                        ></i>
+                        Revolut app
+                      </button>
+                      </a>
+ 
                       <button
                         type="button"
-                        onClick={() => copyPaymentValue(detail.value)}
-                        aria-label={`${detail.label} másolása`}
-                        title={`${detail.label} másolása`}
-                        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-wedding-border bg-wedding-surface text-wedding-muted transition hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
+                        onClick={() => setIsRevolutQrOpen(true)}
+                        className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-wedding-border bg-wedding-surfaceWarm px-5 py-3 font-sans text-xs font-medium uppercase tracking-[0.18em] text-wedding-muted transition hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
                       >
                         <i
-                          className={`fa-solid ${
-                            copiedValue === detail.value
-                              ? "fa-check text-wedding-successText"
-                              : "fa-copy"
-                          }`}
+                          className="fa-solid fa-qrcode"
                           aria-hidden="true"
-                        />
-                        <span className="sr-only">
-                          {copiedValue === detail.value
-                            ? "Másolva"
-                            : `${detail.label} másolása`}
-                        </span>
+                        ></i>
+                        QR megnyitása
                       </button>
                     </div>
-                  ))}
-                </dl>
+                  )}
+                </>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {isRevolutQrOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-wedding-ink/55 px-4 py-8"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="revolut-qr-title"
+          onMouseDown={() => setIsRevolutQrOpen(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-[2rem] border border-wedding-borderSoft bg-wedding-surface p-5 shadow-wedding-card"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <div>
+                <h2
+                  id="revolut-qr-title"
+                  className="font-display text-2xl text-wedding-ink"
+                >
+                  Revolut QR
+                </h2>
+                <p className="mt-1 font-sans text-sm leading-6 text-wedding-bodySoft">
+                  Szkenneld be a fizetéshez.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsRevolutQrOpen(false)}
+                aria-label="QR bezárása"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-wedding-border bg-wedding-surfaceWarm text-wedding-muted transition hover:border-wedding-accentWarm hover:bg-wedding-panelHover hover:text-wedding-ink"
+              >
+                <i className="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <img
+              src={revolutQr}
+              alt="Revolut fizetési QR-kód"
+              className="max-h-[70vh] w-full rounded-2xl border border-wedding-border bg-white object-contain"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }

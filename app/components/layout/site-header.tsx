@@ -23,7 +23,7 @@ export function SiteHeader() {
           className="mt-4 text-sm uppercase tracking-[0.3em] text-wedding-mutedWarm sm:text-base"
           
         >
-          2026 Szeptember 5. Szombat
+          2026. Szeptember 5. Szombat
         </p>
       </div>
 

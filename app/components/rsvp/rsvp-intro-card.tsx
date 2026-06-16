@@ -12,11 +12,11 @@ export function RsvpIntroCard() {
       </h2>
       <p
         className="mt-5 text-base leading-7 text-wedding-muted">
-        Légyszi háztartásonként csak egyszer töltéstek ki. Ha még nem tettétek előbb nézzetek szét az oldalon, hátha választ kaptok valamire, amit itt hiányoltok.
+        Légyszi háztartásonként csak egyszer töltsétek ki. Ha még nem tettétek előbb nézzetek szét az oldalon, hátha választ kaptok valamire, amit itt hiányoltok.
       </p>
       <div className="mt-8 space-y-4 text-sm text-wedding-muted">
-        <InfoRow label="Határidő" value="2026. Július 31." />
-        <InfoRow label="A nagy nap" value="2026. Szeptember 5." />
+        <InfoRow label="Határidő" value="2026. július 31." />
+        <InfoRow label="A nagy nap" value="2026. szeptember 5." />
       </div>
     </div>
   );

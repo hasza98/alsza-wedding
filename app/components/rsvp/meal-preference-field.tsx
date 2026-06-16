@@ -148,6 +148,9 @@ export function MealPreferenceField({
 
       {isDropdownOpen && availableOptions.length > 0 && (
         <div className="absolute z-10 mt-2 w-full overflow-hidden rounded-2xl border border-wedding-border bg-wedding-surface shadow-wedding-dropdown">
+          <p className="border-b border-wedding-borderSoft px-4 py-3 text-xs leading-5 text-wedding-mutedSoft">
+            Többet is választhatsz és sajátot is beírhatsz, ha nem találod a megfelelőt.
+          </p>
           {availableOptions.map((option) => (
             <button
               key={option}

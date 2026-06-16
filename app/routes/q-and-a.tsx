@@ -86,7 +86,7 @@ const questions: Question[] = [
     question: "Meddig kell visszajeleznem, hogy megyek-e?",
     answer: (
       <p>
-        Kérlek <b>Július 31.-ig</b> töltsd ki a <a href="/visszajelzes">visszajelző formot</a>, hogy még legyen időnk a
+        Kérlek <b>július 31-ig</b> töltsd ki a <a href="/visszajelzes">visszajelző formot</a>, hogy még legyen időnk a
         szállást és a megfelelő étkezést előkészíteni.
       </p>
     ),
@@ -135,7 +135,7 @@ const questions: Question[] = [
     question: "Reggel, ha felébredtem lépjek is le?",
     answer: (
       <p>
-        Ha időd engedi, akkor ne! Készülünk nektek egy kis morzsapartyval másnap reggel 9:30-11:00. Megesszük a maradékot, és felidézzük az előző esti meghomályosodott emlékeket.
+        Ha időd engedi, akkor ne! Készülünk nektek egy kis morzsapartyval másnap reggel 9:30-11:00. Megesszük a maradékot, és felidézzük az előző esti elhomályosodott emlékeket.
       </p>
     ),
   },

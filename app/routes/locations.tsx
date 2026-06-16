@@ -1,6 +1,6 @@
 const keyLocations = [
   {
-    name: "Wein&Speiz Fogadó",
+    name: "Wein & Speiz Fogadó",
     address: "Györköny, Petőfi Sandor u. 386",
     icon: "fa-champagne-glasses",
     label: "Helyszín & Szállás",
@@ -42,7 +42,7 @@ export default function Locations() {
           </h1>
           <div className="mt-5 space-y-4 font-sans text-sm leading-7 text-wedding-bodySoft">
             <p>
-              Az esküvőnk helyszíne a györkönyi <a href="https://www.bbpince.hu/" target="_blank">Wine & Speiz Fogadó</a> lesz, ahol a vendégvárással indítjuk a napot. 
+              Az esküvőnk helyszíne a györkönyi <a href="https://www.bbpince.hu/" target="_blank">Wein & Speiz Fogadó</a> lesz, ahol a vendégvárással indítjuk a napot. 
             </p>
             <p>
               Innen közösen átmegyünk a Nagydorogi templomba, ahol Isten színe előtt letesszük a felbonthatatlan esküt. 
@@ -83,7 +83,7 @@ export default function Locations() {
                     rel="noreferrer"
                     className="mt-3 inline-flex items-center gap-2 font-sans text-sm"
                   >
-                    Open route in Maps
+                    Megnézem a térképen
                     <i
                       className="fa-solid fa-arrow-up-right-from-square text-xs"
                       aria-hidden="true"

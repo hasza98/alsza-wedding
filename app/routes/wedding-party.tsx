@@ -54,7 +54,7 @@ const timelineEvents: TimelineEvent[] = [
     {
     time: "23:00",
     title: "Torta",
-    description: "Édes szájúak készüljenek, nagyon finom íz-kombinációkkal készülünk.",
+    description: "Édesszájúak készüljenek, nagyon finom íz-kombinációkkal készülünk.",
     icon: "fa-cake",
   },
     {
