@@ -70,10 +70,10 @@ export default function Accommodation() {
                 Nem kell aggódni pár perc séta alatt a saját ágyatoknál találjátok magatokat mindkét esetben. 
               </p>
               <p className="mt-3 font-sans text-sm leading-7 text-wedding-bodySoft">
-                A szállások átvétele <b>13:00-tól</b> lehetséges a helyszínen, innen írányítunk titeket tovább a rezidenciátokba, és miután elkészült a hajatok és a sminketek, várunk vissza a finom falatokra és jéghideg italokra. 
+                A szállások átvétele <b>14:00-tól</b> lehetséges a helyszínen, innen írányítunk titeket tovább a rezidenciátokba, és miután elkészült a hajatok és a sminketek, várunk vissza a finom falatokra és jéghideg italokra. 
               </p>
               <p className="mt-3 font-sans text-sm leading-7 text-wedding-bodySoft">
-                Másnap a szállásokat <b>XX:XX-ig</b> kell elhagynunk, de mindenképpen nézzetek be a <b>morzsapartyra</b> mielőtt hazamennétek. 
+                Másnap a szállásokat <b>12:00-ig</b> kell elhagynunk, de mindenképpen nézzetek be a <b>morzsapartyra</b> mielőtt hazamennétek. 
               </p>
             </div>
           </div>

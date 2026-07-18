@@ -10,16 +10,16 @@ type TimelineEvent = {
 
 const timelineEvents: TimelineEvent[] = [
   {
-    time: "13:00-15:00",
-    title: "Szállás átvétel",
-    description: "A helyszínen átvehetitek a szobakulcsokat.",
-    icon: "fa-key",
-  },
-  {
     time: "13:30",
     title: "Vendégvárás",
     description: "Evés és ivás, hogy legyen energia a hosszú naphoz.",
     icon: "fa-location-dot",
+  },
+  {
+    time: "14:00-15:00",
+    title: "Szállás átvétel",
+    description: "A helyszínen átvehetitek a szobakulcsokat.",
+    icon: "fa-key",
   },
   {
     time: "16:00",
@@ -73,7 +73,7 @@ const timelineEvents: TimelineEvent[] = [
      icon: "fa-moon",
   },
   {
-    time: "09:30-11:00",
+    time: "10:00-11:30",
     title: "Morzsaparty",
     description: "Reggel találkozunk és elfogyasztjuk a maradék rántott husit egy kis tortával, miközben összerakjuk az előző nap képeit.",
     icon: "fa-cookie-bite",
