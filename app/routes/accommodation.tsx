@@ -89,7 +89,7 @@ export default function Accommodation() {
                 Fizetési információ
               </h2>
               <p className="mt-3 font-sans text-sm leading-7 text-wedding-bodySoft">
-                A szállások egységesen 8000 forintba kerülnek fejenként, ezt kérlek juttassátok el hozzánk <b>augusztus 20-ig</b> az itt felsorolt módok egyikén.
+                A szállások egységesen <b>9000</b> forintba kerülnek fejenként, ezt kérlek juttassátok el hozzánk <b>augusztus 20-ig</b> az itt felsorolt módok egyikén.
               </p>
 
               <div className="mt-5 grid gap-2 rounded-2xl border border-wedding-border bg-wedding-surfaceWarm p-1 sm:grid-cols-3">
