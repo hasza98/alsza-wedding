@@ -86,7 +86,7 @@ const questions: Question[] = [
     question: "Meddig kell visszajeleznem, hogy megyek-e?",
     answer: (
       <p>
-        Kérlek <b>agugusztus 15-ig</b> töltsd ki a <a href="/visszajelzes">visszajelző formot</a>, hogy még legyen időnk a
+        Kérlek <b>augusztus 15-ig</b> töltsd ki a <a href="/visszajelzes">visszajelző formot</a>, hogy még legyen időnk a
         szállást és a megfelelő étkezést előkészíteni.
       </p>
     ),
