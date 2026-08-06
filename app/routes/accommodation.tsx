@@ -25,7 +25,7 @@ const paymentDetails: Record<
   ],
 };
 
-const revolutPaymentLink = "https://revolut.me/szabolcshadarics?currency=HUF&amount=800000&note=Esk%C3%BCv%C5%91i%20sz%C3%A1ll%C3%A1s%20-";
+const revolutPaymentLink = "https://revolut.me/szabolcshadarics?currency=HUF&amount=900000&note=Esk%C3%BCv%C5%91i%20sz%C3%A1ll%C3%A1s%20-";
 
 export default function Accommodation() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("bank");
