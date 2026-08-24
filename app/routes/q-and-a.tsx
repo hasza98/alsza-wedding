@@ -19,10 +19,22 @@ type WeddingDayWeather = {
   icon: string;
   maxTemperature: number;
   minTemperature: number;
+  hourlyForecast: HourlyForecast[];
   updatedAt: string;
 };
 
+type HourlyForecast = {
+  time: string;
+  temperature: number;
+  precipitation: number;
+};
+
+type WeatherChartMode = "temperature" | "precipitation";
+
 const weddingDay = "2026-09-05";
+const weddingDayAfter = "2026-09-06";
+const weddingWeatherStart = `${weddingDay}T13:00`;
+const weddingWeatherEnd = `${weddingDayAfter}T04:00`;
 const gyorkonyCoordinates = {
   latitude: 46.63372,
   longitude: 18.69512,
@@ -68,6 +80,172 @@ function getWeatherDetails(weatherCode: number) {
   );
 }
 
+function getWeddingHours(
+  time?: string[],
+  temperatures?: number[],
+  precipitation?: number[],
+) {
+  if (!time || !temperatures || !precipitation) {
+    return [];
+  }
+
+  return time.reduce<HourlyForecast[]>((hours, currentTime, index) => {
+    const temperature = temperatures[index];
+    const precipitationAmount = precipitation[index];
+
+    if (
+      currentTime >= weddingWeatherStart &&
+      currentTime <= weddingWeatherEnd &&
+      typeof temperature === "number" &&
+      typeof precipitationAmount === "number"
+    ) {
+      hours.push({
+        time: currentTime,
+        temperature,
+        precipitation: precipitationAmount,
+      });
+    }
+
+    return hours;
+  }, []);
+}
+
+function formatForecastHour(time: string) {
+  return new Intl.DateTimeFormat("hu-HU", {
+    hour: "2-digit",
+  }).format(new Date(time));
+}
+
+function HourlyWeatherChart({
+  forecast,
+}: {
+  forecast: HourlyForecast[];
+}) {
+  const [mode, setMode] = useState<WeatherChartMode>("temperature");
+
+  if (forecast.length === 0) {
+    return null;
+  }
+
+  const isTemperatureMode = mode === "temperature";
+  const values = forecast.map((hour) =>
+    isTemperatureMode ? hour.temperature : hour.precipitation,
+  );
+  const minTemperature = Math.min(...values);
+  const maxTemperature = Math.max(...values);
+  const minValue = isTemperatureMode ? minTemperature : 0;
+  const maxValue = Math.max(maxTemperature, isTemperatureMode ? minValue + 1 : 1);
+  const range = Math.max(maxValue - minValue, 1);
+  const hasPrecipitation = forecast.some((hour) => hour.precipitation > 0);
+
+  return (
+    <div className="mt-5 border-t border-wedding-border pt-4">
+      <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h3 className="font-display text-xl leading-tight text-wedding-ink">
+            Óránkénti előrejelzés
+          </h3>
+          <p className="mt-1 text-xs font-medium uppercase tracking-[0.14em] text-wedding-labelSoft">
+            13:00 - másnap 04:00
+          </p>
+        </div>
+
+        <div
+          className="inline-flex w-full rounded-full border border-wedding-border bg-wedding-surface p-1 sm:w-auto"
+          aria-label="Diagram nézet"
+        >
+          {[
+            { mode: "temperature", label: "Hőmérséklet", icon: "fa-temperature-half" },
+            { mode: "precipitation", label: "Csapadék", icon: "fa-cloud-rain" },
+          ].map((item) => {
+            const isActive = mode === item.mode;
+
+            return (
+              <button
+                key={item.mode}
+                type="button"
+                onClick={() => setMode(item.mode as WeatherChartMode)}
+                className={[
+                  "flex flex-1 items-center justify-center gap-2 rounded-full px-3 py-2 text-xs font-medium transition sm:flex-none",
+                  isActive
+                    ? "bg-wedding-ink text-wedding-onInk"
+                    : "text-wedding-muted hover:bg-wedding-panel",
+                ].join(" ")}
+                aria-pressed={isActive}
+              >
+                <i className={`fa-solid ${item.icon}`} aria-hidden="true"></i>
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {!isTemperatureMode && !hasPrecipitation ? (
+        <div className="rounded-xl border border-wedding-successBorder bg-wedding-successBg px-5 py-6 text-center text-wedding-successText">
+          <div className="text-4xl" aria-hidden="true">
+            🥳
+          </div>
+          <p className="mt-2 font-display text-2xl leading-tight">
+            Juhúú, nem fog esni!
+          </p>
+        </div>
+      ) : (
+      <div className="overflow-x-auto pb-1">
+        <div className="flex min-w-[640px] items-end gap-2 rounded-xl border border-wedding-border bg-wedding-surface px-3 pb-3 pt-5">
+          {forecast.map((hour) => {
+            const value = isTemperatureMode
+              ? hour.temperature
+              : hour.precipitation;
+            const barHeight =
+              !isTemperatureMode && value === 0
+                ? 0
+                : 38 + ((value - minValue) / range) * 78;
+            const label = isTemperatureMode
+              ? `${Math.round(value)}°`
+              : `${value.toFixed(1)} mm`;
+            const title = isTemperatureMode
+              ? `${formatForecastHour(hour.time)}: ${Math.round(value)} °C`
+              : `${formatForecastHour(hour.time)}: ${value.toFixed(
+                  1,
+                )} mm csapadék`;
+
+            return (
+              <div
+                key={hour.time}
+                className="flex min-h-40 flex-1 flex-col items-center justify-end gap-2"
+              >
+                <div
+                  className={[
+                    "flex w-full max-w-7 items-start justify-center overflow-hidden rounded-t-md px-0.5 pt-2",
+                    isTemperatureMode
+                      ? "bg-wedding-accentWarm text-wedding-ink"
+                      : value === 0
+                        ? "bg-transparent text-transparent"
+                        : "bg-sky-500 text-white",
+                  ].join(" ")}
+                  style={{ height: `${barHeight}px` }}
+                  title={title}
+                >
+                  {isTemperatureMode || value > 0 ? (
+                    <span className="text-center text-[10px] font-medium leading-none">
+                      {label}
+                    </span>
+                  ) : null}
+                </div>
+                <span className="text-[10px] leading-none text-wedding-mutedSoft">
+                  {formatForecastHour(hour.time)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      )}
+    </div>
+  );
+}
+
 function WeddingDayWeatherCard() {
   const [weather, setWeather] = useState<WeddingDayWeather | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
@@ -80,10 +258,12 @@ function WeddingDayWeatherCard() {
       latitude: String(gyorkonyCoordinates.latitude),
       longitude: String(gyorkonyCoordinates.longitude),
       daily: "weather_code,temperature_2m_max,temperature_2m_min",
+      hourly: "temperature_2m,precipitation",
       temperature_unit: "celsius",
+      precipitation_unit: "mm",
       timezone: "Europe/Budapest",
       start_date: weddingDay,
-      end_date: weddingDay,
+      end_date: weddingDayAfter,
     });
 
     async function loadWeather() {
@@ -106,6 +286,11 @@ function WeddingDayWeatherCard() {
             temperature_2m_max?: number[];
             temperature_2m_min?: number[];
           };
+          hourly?: {
+            time?: string[];
+            temperature_2m?: number[];
+            precipitation?: number[];
+          };
         };
         const dayIndex = forecast.daily?.time?.indexOf(weddingDay) ?? -1;
         const weatherCode = forecast.daily?.weather_code?.[dayIndex];
@@ -113,6 +298,11 @@ function WeddingDayWeatherCard() {
           forecast.daily?.temperature_2m_max?.[dayIndex];
         const minTemperature =
           forecast.daily?.temperature_2m_min?.[dayIndex];
+        const hourlyForecast = getWeddingHours(
+          forecast.hourly?.time,
+          forecast.hourly?.temperature_2m,
+          forecast.hourly?.precipitation,
+        );
 
         if (
           dayIndex < 0 ||
@@ -129,6 +319,7 @@ function WeddingDayWeatherCard() {
           ...details,
           maxTemperature,
           minTemperature,
+          hourlyForecast,
           updatedAt: new Intl.DateTimeFormat("hu-HU", {
             month: "long",
             day: "numeric",
@@ -211,6 +402,8 @@ function WeddingDayWeatherCard() {
           </div>
         </div>
       </div>
+
+      <HourlyWeatherChart forecast={weather.hourlyForecast} />
 
       <p className="mt-3 text-xs leading-5 text-wedding-mutedSoft">
         Az adat az Open-Meteo napi előrejelzéséből frissül. Utolsó betöltés:{" "}
