@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import contactPhotoDori from "../assets/contacts/dori.jpg";
 import contactPhotoEvelin from "../assets/contacts/evelin.jpg";
@@ -13,6 +13,212 @@ type Question = {
   question: string;
   answer: ReactNode;
 };
+
+type WeddingDayWeather = {
+  condition: string;
+  icon: string;
+  maxTemperature: number;
+  minTemperature: number;
+  updatedAt: string;
+};
+
+const weddingDay = "2026-09-05";
+const gyorkonyCoordinates = {
+  latitude: 46.63372,
+  longitude: 18.69512,
+};
+
+const weatherCodeDetails: Record<number, { condition: string; icon: string }> = {
+  0: { condition: "Derült idő", icon: "fa-sun" },
+  1: { condition: "Többnyire napos", icon: "fa-cloud-sun" },
+  2: { condition: "Részben felhős", icon: "fa-cloud-sun" },
+  3: { condition: "Borult", icon: "fa-cloud" },
+  45: { condition: "Ködös", icon: "fa-smog" },
+  48: { condition: "Zúzmarás köd", icon: "fa-smog" },
+  51: { condition: "Gyenge szitálás", icon: "fa-cloud-rain" },
+  53: { condition: "Szitálás", icon: "fa-cloud-rain" },
+  55: { condition: "Erős szitálás", icon: "fa-cloud-rain" },
+  56: { condition: "Ónos szitálás", icon: "fa-cloud-rain" },
+  57: { condition: "Erős ónos szitálás", icon: "fa-cloud-rain" },
+  61: { condition: "Gyenge eső", icon: "fa-cloud-rain" },
+  63: { condition: "Eső", icon: "fa-cloud-showers-heavy" },
+  65: { condition: "Erős eső", icon: "fa-cloud-showers-heavy" },
+  66: { condition: "Ónos eső", icon: "fa-cloud-rain" },
+  67: { condition: "Erős ónos eső", icon: "fa-cloud-rain" },
+  71: { condition: "Gyenge havazás", icon: "fa-snowflake" },
+  73: { condition: "Havazás", icon: "fa-snowflake" },
+  75: { condition: "Erős havazás", icon: "fa-snowflake" },
+  77: { condition: "Hódarazápor", icon: "fa-snowflake" },
+  80: { condition: "Gyenge zápor", icon: "fa-cloud-sun-rain" },
+  81: { condition: "Zápor", icon: "fa-cloud-showers-heavy" },
+  82: { condition: "Heves zápor", icon: "fa-cloud-showers-heavy" },
+  85: { condition: "Gyenge hózápor", icon: "fa-snowflake" },
+  86: { condition: "Erős hózápor", icon: "fa-snowflake" },
+  95: { condition: "Zivatar", icon: "fa-cloud-bolt" },
+  96: { condition: "Zivatar jégesővel", icon: "fa-cloud-bolt" },
+  99: { condition: "Erős zivatar jégesővel", icon: "fa-cloud-bolt" },
+};
+
+function getWeatherDetails(weatherCode: number) {
+  return (
+    weatherCodeDetails[weatherCode] ?? {
+      condition: "Változékony idő",
+      icon: "fa-cloud-sun",
+    }
+  );
+}
+
+function WeddingDayWeatherCard() {
+  const [weather, setWeather] = useState<WeddingDayWeather | null>(null);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">(
+    "loading",
+  );
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const params = new URLSearchParams({
+      latitude: String(gyorkonyCoordinates.latitude),
+      longitude: String(gyorkonyCoordinates.longitude),
+      daily: "weather_code,temperature_2m_max,temperature_2m_min",
+      temperature_unit: "celsius",
+      timezone: "Europe/Budapest",
+      start_date: weddingDay,
+      end_date: weddingDay,
+    });
+
+    async function loadWeather() {
+      try {
+        setStatus("loading");
+
+        const response = await fetch(
+          `https://api.open-meteo.com/v1/forecast?${params.toString()}`,
+          { signal: controller.signal },
+        );
+
+        if (!response.ok) {
+          throw new Error("Weather forecast request failed");
+        }
+
+        const forecast = (await response.json()) as {
+          daily?: {
+            time?: string[];
+            weather_code?: number[];
+            temperature_2m_max?: number[];
+            temperature_2m_min?: number[];
+          };
+        };
+        const dayIndex = forecast.daily?.time?.indexOf(weddingDay) ?? -1;
+        const weatherCode = forecast.daily?.weather_code?.[dayIndex];
+        const maxTemperature =
+          forecast.daily?.temperature_2m_max?.[dayIndex];
+        const minTemperature =
+          forecast.daily?.temperature_2m_min?.[dayIndex];
+
+        if (
+          dayIndex < 0 ||
+          typeof weatherCode !== "number" ||
+          typeof maxTemperature !== "number" ||
+          typeof minTemperature !== "number"
+        ) {
+          throw new Error("Wedding day forecast is unavailable");
+        }
+
+        const details = getWeatherDetails(weatherCode);
+
+        setWeather({
+          ...details,
+          maxTemperature,
+          minTemperature,
+          updatedAt: new Intl.DateTimeFormat("hu-HU", {
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(new Date()),
+        });
+        setStatus("ready");
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        setStatus("error");
+      }
+    }
+
+    void loadWeather();
+
+    return () => controller.abort();
+  }, []);
+
+  if (status === "loading") {
+    return (
+      <div className="mt-3 flex items-center gap-3 rounded-2xl border border-wedding-borderSoft bg-wedding-surfaceWarm px-4 py-3 text-wedding-muted">
+        <i className="fa-solid fa-cloud-sun text-2xl" aria-hidden="true"></i>
+        <span>Friss előrejelzés betöltése Györkönyre...</span>
+      </div>
+    );
+  }
+
+  if (status === "error" || !weather) {
+    return (
+      <div className="mt-3 flex items-center gap-3 rounded-2xl border border-wedding-borderSoft bg-wedding-surfaceWarm px-4 py-3 text-wedding-muted">
+        <i className="fa-solid fa-cloud-sun-rain text-2xl" aria-hidden="true"></i>
+        <span>
+          Most nem sikerült betölteni az aktuális előrejelzést, de később
+          automatikusan újra a legfrissebb adatokat kérjük le.
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-3 rounded-2xl border border-wedding-borderSoft bg-wedding-surfaceWarm px-5 py-4 shadow-wedding-radio">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-4">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-wedding-border bg-wedding-surface text-wedding-accent">
+            <i
+              className={`fa-solid ${weather.icon} text-3xl`}
+              aria-hidden="true"
+            ></i>
+          </span>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-wedding-labelWarm">
+              Györköny, szeptember 5.
+            </p>
+            <p className="mt-1 font-display text-2xl leading-tight text-wedding-ink">
+              {weather.condition}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 text-center sm:min-w-48">
+          <div className="rounded-xl border border-wedding-border bg-wedding-surface px-4 py-3">
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-wedding-labelSoft">
+              Min
+            </p>
+            <p className="mt-1 text-2xl font-medium text-wedding-ink">
+              {Math.round(weather.minTemperature)}&deg;C
+            </p>
+          </div>
+          <div className="rounded-xl border border-wedding-border bg-wedding-surface px-4 py-3">
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-wedding-labelSoft">
+              Max
+            </p>
+            <p className="mt-1 text-2xl font-medium text-wedding-ink">
+              {Math.round(weather.maxTemperature)}&deg;C
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <p className="mt-3 text-xs leading-5 text-wedding-mutedSoft">
+        Az adat az Open-Meteo napi előrejelzéséből frissül. Utolsó betöltés:{" "}
+        {weather.updatedAt}.
+      </p>
+    </div>
+  );
+}
 
 type ContactPhotoPosition =
   | "object-center"
@@ -97,6 +303,18 @@ const questions: Question[] = [
       <p>
         A legfontosabb, hogy amiben jól érzed magad! <br /> Ha minden jól alakul kint leszünk éjszaka is, szóval készülj valamivel, ami kívülről átmelegít (a belső melegítésről mi gondoskodunk 😉). <br /> Cipőből is jó ha van stabilabb, mert a táncparkett térköves lesz. <br /> Ezenkívül a gyakran ismételt kérdés, hogy van-e tabu szín? A fehéret már stoppoltuk, de ezenkívül tárt karokkal várjuk a színeket, legyetek a dekorunk része!
       </p>
+    ),
+  },
+  {
+    question: "Milyen idő lesz a nagy napon?",
+    answer: (
+      <>
+        <p>
+          Az aktuálisan várható időjárást itt látjátok Györkönyre, szeptember
+          5-re. A min és max hőmérséklet automatikusan frissül.
+        </p>
+        <WeddingDayWeatherCard />
+      </>
     ),
   },
   {
