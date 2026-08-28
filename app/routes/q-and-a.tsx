@@ -514,7 +514,7 @@ const questions: Question[] = [
     question: "Tudom milyen zenétől futna mindenki a táncparkettre. Tehetek javaslatokat?",
     answer: (
       <p>
-        Persze! Nyugodtan adj hozzá zenéket <a href="https://open.spotify.com/playlist/47oB7IGUVLuu0p0rsTl3UU?si=fStv5zkaRb2rc5jX2An8Ng&utm_source=copy-link&pt=18e4441b62d3f4307401cc658a9fce9d&pi=r5YYLaOsRciV3" target="_blank">ehhez a listához</a>, de figyelj, hogy ne csak a te zenéid töltsék ki az egészet, hogy mindenki kívánságát egységesen tudjuk figyelembe venni (igen Gábor és Frici, ez főként nektek szól)
+        Persze! Nyugodtan adj hozzá zenéket <a href="https://open.spotify.com/playlist/47oB7IGUVLuu0p0rsTl3UU?si=NyIla9sUSritx8QKiL-MWg&utm_source=copy-link&pt=618d2bb97c6324d0d7a559b893206fbb&pi=nENWuX9LTBiWd" target="_blank">ehhez a listához</a>, de figyelj, hogy ne csak a te zenéid töltsék ki az egészet, hogy mindenki kívánságát egységesen tudjuk figyelembe venni (igen Gábor és Frici, ez főként nektek szól)
       </p>
     ),
   },
