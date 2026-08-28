@@ -546,7 +546,7 @@ const questions: Question[] = [
     question: "Reggel, ha felébredtem lépjek is le?",
     answer: (
       <p>
-        Ha időd engedi, akkor ne! Készülünk nektek egy kis morzsapartyval másnap reggel 9:30-11:00. Megesszük a maradékot, és felidézzük az előző esti elhomályosodott emlékeket.
+        Ha időd engedi, akkor ne! Készülünk nektek egy kis morzsapartyval másnap reggel 10:00-11:30. Megesszük a maradékot, és felidézzük az előző esti elhomályosodott emlékeket.
       </p>
     ),
   },
