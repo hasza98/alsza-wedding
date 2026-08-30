@@ -8,5 +8,6 @@ export default [
   route("szallas", "routes/accommodation.tsx"),
   route("programterv", "routes/wedding-party.tsx"),
   route("kepeink", "routes/photos.tsx"),
+  route("magok", "routes/magok.tsx"),
   route("visszajelzes", "routes/rsvp.tsx"),
 ] satisfies RouteConfig;
